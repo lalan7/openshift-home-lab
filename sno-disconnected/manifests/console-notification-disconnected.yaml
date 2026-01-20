@@ -1,0 +1,13 @@
+apiVersion: console.openshift.io/v1
+kind: ConsoleNotification
+metadata:
+  name: disconnected-cluster-banner
+spec:
+  text: "⚠️ DISCONNECTED CLUSTER - This cluster has no internet access. All images are served from the local mirror registry."
+  location: BannerTop
+  color: '#fff'
+  backgroundColor: '#c9190b'  # Red Hat danger red
+  link:
+    href: 'https://docs.openshift.com/container-platform/4.18/installing/disconnected_install/index.html'
+    text: 'Disconnected Install Docs'
+
