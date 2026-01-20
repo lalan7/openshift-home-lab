@@ -1,0 +1,55 @@
+---
+# Optional: Backup for Data Plane Workloads
+#
+# Use this if you need to backup workloads running on the hosted cluster.
+# This backup targets the hosted cluster itself, not the management cluster.
+#
+# Required environment variables:
+#   BACKUP_NAME     - Unique backup name
+#   APP_NAMESPACES  - Comma-separated list of application namespaces
+#
+# Prerequisites:
+#   - OADP must be installed on the HOSTED cluster (not just management cluster)
+#   - kubeconfig for the hosted cluster
+#
+# Usage:
+#   export KUBECONFIG=/path/to/hosted-cluster-kubeconfig
+#   export BACKUP_NAME="data-plane-backup-$(date +%Y%m%d-%H%M%S)"
+#   export APP_NAMESPACE="my-app"
+#   envsubst < backup-data-plane.yaml.template | oc apply -f -
+#
+apiVersion: velero.io/v1
+kind: Backup
+metadata:
+  name: ${BACKUP_NAME}
+  namespace: openshift-adp
+  labels:
+    velero.io/storage-location: default
+    app.kubernetes.io/component: hcp-backup
+    hcp.openshift.io/backup-type: data-plane
+spec:
+  hooks: {}
+  includedNamespaces:
+    - ${APP_NAMESPACE}
+  includedResources:
+    - deployments
+    - statefulsets
+    - daemonsets
+    - services
+    - configmaps
+    - secrets
+    - persistentvolumeclaims
+    - serviceaccounts
+    - roles
+    - rolebindings
+    - ingresses
+    - routes
+  excludedResources:
+    - events
+    - pods
+    - replicasets
+  storageLocation: default
+  snapshotMoveData: true
+  datamover: velero
+  defaultVolumesToFsBackup: false
+  ttl: 720h0m0s

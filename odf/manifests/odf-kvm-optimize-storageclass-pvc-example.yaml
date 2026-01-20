@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgresql-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ocs-storagecluster-ceph-rbd-kvm  # Use this!
+
+
+
+
+#oc patch storageclass ocs-storagecluster-ceph-rbd-kvm \
+ # -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'

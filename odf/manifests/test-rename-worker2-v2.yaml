@@ -1,0 +1,32 @@
+---
+# TEST: Rename ens11 to storage0 on management-worker-2
+# This uses the capture/apply pattern to rename the interface
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: test-rename-storage-worker2-v2
+  labels:
+    purpose: storage-network-rename-test
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: management-worker-2.hypershift.lab
+  capture:
+    ens11-mac: interfaces.name=="ens11" | [0].mac-address
+  desiredState:
+    interfaces:
+    - name: ens11
+      type: ethernet
+      state: absent
+    - name: storage0
+      type: ethernet
+      state: up
+      mac-address: "{{ capture.ens11-mac }}"
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.32
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false
+

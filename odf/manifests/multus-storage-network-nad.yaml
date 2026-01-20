@@ -1,0 +1,28 @@
+---
+# NetworkAttachmentDefinition for Ceph Storage Network
+# All Ceph pods (MONs, OSDs, MGRs, MDS) run on Server 2 nodes: hosted-worker7,8,9
+# These nodes all use interface: enp11s0
+# Host IPs: 10.0.0.20, 10.0.0.21, 10.0.0.22 (configured by NMState)
+# Pod IP range: 10.0.0.50-10.0.0.80 (30 IPs for all Ceph pods)
+apiVersion: k8s.cni.cncf.io/v1
+kind: NetworkAttachmentDefinition
+metadata:
+  name: ocs-public
+  namespace: openshift-storage
+  labels:
+    purpose: storage-network
+spec:
+  config: |
+    {
+      "cniVersion": "0.3.1",
+      "type": "macvlan",
+      "master": "enp11s0",
+      "mode": "bridge",
+      "ipam": {
+        "type": "whereabouts",
+        "range": "10.0.0.50-10.0.0.80/24",
+        "routes": [
+          {"dst": "10.0.0.0/24"}
+        ]
+      }
+    }

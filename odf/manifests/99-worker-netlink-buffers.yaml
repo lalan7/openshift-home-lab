@@ -1,0 +1,42 @@
+---
+# MachineConfig to fix OVS netlink buffer overflow
+# This increases network buffers to prevent packet loss
+# 
+# Impact: Requires MCP update (nodes will reboot sequentially)
+# Expected time: 30-60 minutes for all nodes
+#
+# Verification after apply:
+#   oc debug node/hosted-worker9.hypershift.lab -- chroot /host sysctl net.core.rmem_max
+#   Should show: 4194304
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: worker
+  name: 99-worker-netlink-buffers
+spec:
+  config:
+    ignition:
+      version: 3.2.0
+    storage:
+      files:
+      - contents:
+          # Base64 encoded content of sysctl tuning file
+          # Decoded content:
+          # ---
+          # # Increase netlink buffers for OVS (fixes packet loss)
+          # net.core.rmem_default = 4194304
+          # net.core.rmem_max = 4194304
+          # net.core.wmem_default = 4194304
+          # net.core.wmem_max = 4194304
+          # # Increase netdev budget for high traffic
+          # net.core.netdev_budget = 600
+          # net.core.netdev_budget_usecs = 8000
+          # # Increase backlog queue
+          # net.core.netdev_max_backlog = 5000
+          # ---
+          source: data:text/plain;charset=utf-8;base64,IyBJbmNyZWFzZSBuZXRsaW5rIGJ1ZmZlcnMgZm9yIE9WUyAoZml4ZXMgcGFja2V0IGxvc3MpCm5ldC5jb3JlLnJtZW1fZGVmYXVsdCA9IDQxOTQzMDQKbmV0LmNvcmUucm1lbV9tYXggPSA0MTk0MzA0Cm5ldC5jb3JlLndtZW1fZGVmYXVsdCA9IDQxOTQzMDQKbmV0LmNvcmUud21lbV9tYXggPSA0MTk0MzA0CiMgSW5jcmVhc2UgbmV0ZGV2IGJ1ZGdldCBmb3IgaGlnaCB0cmFmZmljCm5ldC5jb3JlLm5ldGRldl9idWRnZXQgPSA2MDAKbmV0LmNvcmUubmV0ZGV2X2J1ZGdldF91c2VjcyA9IDgwMDAKIyBJbmNyZWFzZSBiYWNrbG9nIHF1ZXVlCm5ldC5jb3JlLm5ldGRldl9tYXhfYmFja2xvZyA9IDUwMDAK
+        mode: 0644
+        path: /etc/sysctl.d/99-ovs-netlink.conf
+        overwrite: true
+

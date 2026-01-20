@@ -1,0 +1,49 @@
+---
+# DataProtectionApplication for HCP Backup
+#
+# Required environment variables:
+#   S3_BUCKET    - S3 bucket name for backups
+#   S3_ENDPOINT  - S3 endpoint URL (e.g., https://s3.openshift-storage.svc)
+#   S3_REGION    - S3 region (e.g., us-east-1)
+#
+# Usage:
+#   envsubst < 05-dpa.yaml.template | oc apply -f -
+#
+apiVersion: oadp.openshift.io/v1alpha1
+kind: DataProtectionApplication
+metadata:
+  name: hcp-dpa
+  namespace: openshift-adp
+spec:
+  backupLocations:
+    - velero:
+        config:
+          profile: default
+          region: ${S3_REGION}
+          s3ForcePathStyle: "true"
+          s3Url: ${S3_ENDPOINT}
+          insecureSkipTLSVerify: "false"
+        credential:
+          key: cloud
+          name: cloud-credentials
+        default: true
+        objectStorage:
+          bucket: ${S3_BUCKET}
+          prefix: hcp-backups
+        provider: aws
+  configuration:
+    nodeAgent:
+      enable: true
+      uploaderType: kopia
+    velero:
+      defaultPlugins:
+        - openshift
+        - aws
+        - csi
+      resourceTimeout: 10m
+  snapshotLocations:
+    - velero:
+        config:
+          profile: default
+          region: ${S3_REGION}
+        provider: aws

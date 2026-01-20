@@ -1,0 +1,2078 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical Documentation - Community Exploration">
+      
+      
+        <meta name="author" content="Erik Lalancette">
+      
+      
+      
+        <link rel="prev" href="../HIGH-AVAILABILITY-GUIDE/">
+      
+      
+        <link rel="next" href="../BACKUP-PROCEDURES/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>DR Plan - OpenShift Knowledge Base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#hcp-disaster-recovery-plan" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="OpenShift Knowledge Base" class="md-header__button md-logo" aria-label="OpenShift Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenShift Knowledge Base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DR Plan
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  HCP Disaster Recovery
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../odf/docs/RGW-S3-Usage-Guide/" class="md-tabs__link">
+          
+  
+  
+  Storage
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="OpenShift Knowledge Base" class="md-nav__button md-logo" aria-label="OpenShift Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    OpenShift Knowledge Base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCP Disaster Recovery
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HCP Disaster Recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/OADP-HCP-SETUP-2026-01-19/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../docs/OADP-RESTORE-TEST-PROCEDURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Runbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../HIGH-AVAILABILITY-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HA Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DR Plan
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DR Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#document-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document Information
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Out of Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-recovery-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Recovery Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-disaster-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Disaster Scenarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Disaster Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-scenario-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Scenario Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-impact-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Impact Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-backup-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Backup Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Backup Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-what-gets-backed-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 What Gets Backed Up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-backup-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Backup Schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-retention-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Retention Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-storage-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Storage Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-recovery-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Recovery Procedures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Recovery Procedures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-decision-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Decision Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-procedure-restore-to-same-management-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Procedure: Restore to Same Management Cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-procedure-restore-to-new-management-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Procedure: Restore to New Management Cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-roles-and-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Roles and Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-communication-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Communication Plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Communication Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-escalation-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Escalation Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-notification-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Notification Channels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-testing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Testing Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Testing Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-test-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Test Schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-test-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Test Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Appendix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Appendix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-quick-reference-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Quick Reference Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-related-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Related Documents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 References
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BACKUP-PROCEDURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RESTORE-PROCEDURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../odf/docs/RGW-S3-Usage-Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3 Usage Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#document-information" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Document Information
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-out-of-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Out of Scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-recovery-objectives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Recovery Objectives
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-disaster-scenarios" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Disaster Scenarios
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Disaster Scenarios">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-scenario-classification" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Scenario Classification
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-impact-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Impact Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-backup-strategy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Backup Strategy
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Backup Strategy">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-what-gets-backed-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 What Gets Backed Up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-backup-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Backup Schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-retention-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 Retention Policy
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-storage-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Storage Requirements
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-recovery-procedures" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Recovery Procedures
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Recovery Procedures">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-decision-tree" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Decision Tree
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-procedure-restore-to-same-management-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Procedure: Restore to Same Management Cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-procedure-restore-to-new-management-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Procedure: Restore to New Management Cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-roles-and-responsibilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Roles and Responsibilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-communication-plan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Communication Plan
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Communication Plan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-escalation-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Escalation Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-notification-channels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 Notification Channels
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-testing-requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Testing Requirements
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="8. Testing Requirements">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-test-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Test Schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-test-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Test Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-appendix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Appendix
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="9. Appendix">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-quick-reference-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Quick Reference Commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-related-documents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Related Documents
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 References
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="admonition warning">
+<p class="admonition-title">Disclaimer</p>
+<p>This documentation is for <strong>community exploration and education</strong> only.
+<strong>Not for production use.</strong> Contact Red Hat Consulting for recommended solutions.
+Open a Red Hat Support Case for compatibility and supported options.</p>
+</div>
+<hr />
+<h1 id="hcp-disaster-recovery-plan">HCP Disaster Recovery Plan<a class="headerlink" href="#hcp-disaster-recovery-plan" title="Permanent link">&para;</a></h1>
+<h2 id="document-information">Document Information<a class="headerlink" href="#document-information" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Version</td>
+<td>1.0</td>
+</tr>
+<tr>
+<td>Last Updated</td>
+<td>2025-01-09</td>
+</tr>
+<tr>
+<td>Owner</td>
+<td>SRE Team</td>
+</tr>
+<tr>
+<td>Review Frequency</td>
+<td>Quarterly</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-overview">1. Overview<a class="headerlink" href="#1-overview" title="Permanent link">&para;</a></h2>
+<p>This document outlines the Disaster Recovery (DR) procedures for Hosted Control Planes (HCP) managed on OpenShift. It covers backup strategies, recovery procedures, and testing guidelines.</p>
+<h3 id="11-scope">1.1 Scope<a class="headerlink" href="#11-scope" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Hosted clusters managed by HyperShift</li>
+<li>Management cluster protection</li>
+<li>etcd data and cluster configuration</li>
+</ul>
+<h3 id="12-out-of-scope">1.2 Out of Scope<a class="headerlink" href="#12-out-of-scope" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Application-level DR (covered separately per application)</li>
+<li>Infrastructure-level DR (covered by infrastructure team)</li>
+</ul>
+<h2 id="2-recovery-objectives">2. Recovery Objectives<a class="headerlink" href="#2-recovery-objectives" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Target</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>RPO</strong> (Recovery Point Objective)</td>
+<td>24 hours</td>
+<td>Daily backups at 02:00 UTC</td>
+</tr>
+<tr>
+<td><strong>RTO</strong> (Recovery Time Objective)</td>
+<td>4 hours</td>
+<td>Time to restore hosted cluster</td>
+</tr>
+<tr>
+<td><strong>MTTR</strong> (Mean Time To Recovery)</td>
+<td>2 hours</td>
+<td>Average recovery time</td>
+</tr>
+</tbody>
+</table>
+<h2 id="3-disaster-scenarios">3. Disaster Scenarios<a class="headerlink" href="#3-disaster-scenarios" title="Permanent link">&para;</a></h2>
+<h3 id="31-scenario-classification">3.1 Scenario Classification<a class="headerlink" href="#31-scenario-classification" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Severity</th>
+<th>Impact</th>
+<th>Recovery Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single etcd pod failure</td>
+<td>Low</td>
+<td>None (auto-recovery)</td>
+<td>Automatic</td>
+</tr>
+<tr>
+<td>etcd quorum loss</td>
+<td>Medium</td>
+<td>Control plane unavailable</td>
+<td>etcd restore</td>
+</tr>
+<tr>
+<td>Management cluster degraded</td>
+<td>Medium</td>
+<td>Cannot modify clusters</td>
+<td>Wait/troubleshoot</td>
+</tr>
+<tr>
+<td>Management cluster total loss</td>
+<td>High</td>
+<td>Cannot manage clusters</td>
+<td>Cross-cluster restore</td>
+</tr>
+<tr>
+<td>Hosted cluster data corruption</td>
+<td>High</td>
+<td>Cluster unusable</td>
+<td>Full restore</td>
+</tr>
+</tbody>
+</table>
+<h3 id="32-impact-matrix">3.2 Impact Matrix<a class="headerlink" href="#32-impact-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component Failed</th>
+<th>Control Plane</th>
+<th>Data Plane (Workloads)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Management API</td>
+<td>Degraded</td>
+<td><strong>No impact</strong></td>
+</tr>
+<tr>
+<td>etcd</td>
+<td>Unavailable</td>
+<td><strong>No impact</strong></td>
+</tr>
+<tr>
+<td>HyperShift Operator</td>
+<td>Cannot modify</td>
+<td><strong>No impact</strong></td>
+</tr>
+<tr>
+<td>Entire Management Cluster</td>
+<td>Unavailable</td>
+<td><strong>No impact</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Key Point:</strong> Data plane workloads continue running even during management cluster failures.</p>
+<h2 id="4-backup-strategy">4. Backup Strategy<a class="headerlink" href="#4-backup-strategy" title="Permanent link">&para;</a></h2>
+<h3 id="41-what-gets-backed-up">4.1 What Gets Backed Up<a class="headerlink" href="#41-what-gets-backed-up" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Backup Method</th>
+<th>Frequency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HostedCluster CR</td>
+<td>OADP</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>HostedControlPlane CR</td>
+<td>OADP</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>NodePool CRs</td>
+<td>OADP</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>Secrets</td>
+<td>OADP</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>ConfigMaps</td>
+<td>OADP</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>etcd data</td>
+<td>CSI Volume Snapshot</td>
+<td>Daily</td>
+</tr>
+<tr>
+<td>RBAC resources</td>
+<td>OADP</td>
+<td>Daily</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-backup-schedule">4.2 Backup Schedule<a class="headerlink" href="#42-backup-schedule" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Daily:    02:00 UTC - Full control plane backup
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Weekly:   Sunday 03:00 UTC - Extended backup with additional validation
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Monthly:  1st Sunday 04:00 UTC - Long-term retention backup (90 days)
+</span></code></pre></div>
+<h3 id="43-retention-policy">4.3 Retention Policy<a class="headerlink" href="#43-retention-policy" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Backup Type</th>
+<th>Retention</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Daily</td>
+<td>7 days</td>
+</tr>
+<tr>
+<td>Weekly</td>
+<td>4 weeks</td>
+</tr>
+<tr>
+<td>Monthly</td>
+<td>90 days</td>
+</tr>
+<tr>
+<td>Pre-upgrade</td>
+<td>Until next successful upgrade</td>
+</tr>
+</tbody>
+</table>
+<h3 id="44-storage-requirements">4.4 Storage Requirements<a class="headerlink" href="#44-storage-requirements" title="Permanent link">&para;</a></h3>
+<ul>
+<li>S3-compatible storage (MinIO, ODF MCG, AWS S3)</li>
+<li>Minimum 100GB per hosted cluster</li>
+<li>Geo-redundant storage recommended</li>
+</ul>
+<h2 id="5-recovery-procedures">5. Recovery Procedures<a class="headerlink" href="#5-recovery-procedures" title="Permanent link">&para;</a></h2>
+<h3 id="51-decision-tree">5.1 Decision Tree<a class="headerlink" href="#51-decision-tree" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>                     ┌─────────────────────┐
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>                     │  Incident Detected  │
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>                     └──────────┬──────────┘
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                                │
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>                     ┌──────────▼──────────┐
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>                     │ Management Cluster  │
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>                     │    Accessible?      │
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>                     └──────────┬──────────┘
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>                        Yes │      │ No
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>                    ┌───────┘      └────────┐
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>                    ▼                       ▼
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>         ┌──────────────────┐    ┌──────────────────┐
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>         │ Hosted Cluster   │    │ Restore to New   │
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>         │ Data Corrupted?  │    │ Management       │
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>         └────────┬─────────┘    │ Cluster          │
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>            Yes │    │ No        └──────────────────┘
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>          ┌─────┘    └─────┐
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>          ▼                ▼
+</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>┌─────────────────┐  ┌─────────────────┐
+</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>│ Restore from    │  │ Troubleshoot    │
+</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>│ Backup (Same)   │  │ (No Restore)    │
+</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>└─────────────────┘  └─────────────────┘
+</span></code></pre></div>
+<h3 id="52-procedure-restore-to-same-management-cluster">5.2 Procedure: Restore to Same Management Cluster<a class="headerlink" href="#52-procedure-restore-to-same-management-cluster" title="Permanent link">&para;</a></h3>
+<p><strong>When to use:</strong> Data corruption, accidental deletion, rollback needed</p>
+<p><strong>Estimated time:</strong> 30-60 minutes</p>
+<ol>
+<li>
+<p>Verify backup integrity
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>./scripts/verify-backup.sh<span class="w"> </span>&lt;backup-name&gt;
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Pause cluster reconciliation (if not already paused)
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>oc<span class="w"> </span>patch<span class="w"> </span>hostedcluster<span class="w"> </span>&lt;name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;ns&gt;<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;pausedUntil&quot;:&quot;true&quot;}}&#39;</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Execute restore
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>./scripts/04-restore-same-cluster.sh<span class="w"> </span>&lt;backup-name&gt;
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Resume reconciliation
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>oc<span class="w"> </span>patch<span class="w"> </span>hostedcluster<span class="w"> </span>&lt;name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;ns&gt;<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;pausedUntil&quot;:null}}&#39;</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Verify cluster health
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>oc<span class="w"> </span>get<span class="w"> </span>hostedcluster<span class="w"> </span>-A
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>oc<span class="w"> </span>get<span class="w"> </span>nodepool<span class="w"> </span>-A
+</span></code></pre></div></p>
+</li>
+</ol>
+<h3 id="53-procedure-restore-to-new-management-cluster">5.3 Procedure: Restore to New Management Cluster<a class="headerlink" href="#53-procedure-restore-to-new-management-cluster" title="Permanent link">&para;</a></h3>
+<p><strong>When to use:</strong> Management cluster unrecoverable, migration required</p>
+<p><strong>Estimated time:</strong> 2-4 hours</p>
+<p><strong>Prerequisites:</strong>
+- New management cluster with HyperShift Operator
+- OADP configured with same S3 storage
+- External DNS configured</p>
+<ol>
+<li>
+<p>Prepare new management cluster
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Install OADP</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>./scripts/01-install-oadp.sh
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># Configure same S3 backend</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># (use same credentials and bucket)</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Verify backup is accessible
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>./scripts/verify-backup.sh<span class="w"> </span>&lt;backup-name&gt;
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Execute cross-cluster restore
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>./scripts/05-restore-new-cluster.sh<span class="w"> </span>&lt;backup-name&gt;
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Resume hosted cluster reconciliation
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>oc<span class="w"> </span>patch<span class="w"> </span>hostedcluster<span class="w"> </span>&lt;name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;ns&gt;<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;pausedUntil&quot;:null}}&#39;</span>
+</span></code></pre></div></p>
+</li>
+<li>
+<p>Delete resources from old cluster (if accessible)
+   <div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># On OLD management cluster</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>oc<span class="w"> </span>delete<span class="w"> </span>hostedcluster<span class="w"> </span>&lt;name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;ns&gt;
+</span></code></pre></div></p>
+</li>
+</ol>
+<h2 id="6-roles-and-responsibilities">6. Roles and Responsibilities<a class="headerlink" href="#6-roles-and-responsibilities" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Responsibilities</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>On-Call SRE</strong></td>
+<td>Initial response, severity assessment</td>
+</tr>
+<tr>
+<td><strong>HCP Team Lead</strong></td>
+<td>Escalation point, recovery authorization</td>
+</tr>
+<tr>
+<td><strong>Infrastructure Team</strong></td>
+<td>S3/storage issues, network connectivity</td>
+</tr>
+<tr>
+<td><strong>Platform Team</strong></td>
+<td>Management cluster issues</td>
+</tr>
+</tbody>
+</table>
+<h2 id="7-communication-plan">7. Communication Plan<a class="headerlink" href="#7-communication-plan" title="Permanent link">&para;</a></h2>
+<h3 id="71-escalation-matrix">7.1 Escalation Matrix<a class="headerlink" href="#71-escalation-matrix" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Severity</th>
+<th>Response Time</th>
+<th>Escalation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Critical</td>
+<td>15 minutes</td>
+<td>Immediate page to HCP Team</td>
+</tr>
+<tr>
+<td>High</td>
+<td>30 minutes</td>
+<td>Page during business hours</td>
+</tr>
+<tr>
+<td>Medium</td>
+<td>4 hours</td>
+<td>Ticket, no page</td>
+</tr>
+<tr>
+<td>Low</td>
+<td>Next business day</td>
+<td>Ticket</td>
+</tr>
+</tbody>
+</table>
+<h3 id="72-notification-channels">7.2 Notification Channels<a class="headerlink" href="#72-notification-channels" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Primary:</strong> #hcp-incidents Slack channel</li>
+<li><strong>Secondary:</strong> PagerDuty</li>
+<li><strong>Stakeholders:</strong> Email distribution list</li>
+</ul>
+<h2 id="8-testing-requirements">8. Testing Requirements<a class="headerlink" href="#8-testing-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="81-test-schedule">8.1 Test Schedule<a class="headerlink" href="#81-test-schedule" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Test Type</th>
+<th>Frequency</th>
+<th>Last Tested</th>
+<th>Next Due</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backup verification</td>
+<td>Weekly</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Same-cluster restore</td>
+<td>Monthly</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Cross-cluster restore</td>
+<td>Quarterly</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Full DR drill</td>
+<td>Annually</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="82-test-procedure">8.2 Test Procedure<a class="headerlink" href="#82-test-procedure" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Create test hosted cluster</li>
+<li>Deploy sample workload</li>
+<li>Take backup</li>
+<li>Corrupt or delete cluster</li>
+<li>Execute restore</li>
+<li>Verify workload restored</li>
+<li>Document results</li>
+</ol>
+<h2 id="9-appendix">9. Appendix<a class="headerlink" href="#9-appendix" title="Permanent link">&para;</a></h2>
+<h3 id="91-quick-reference-commands">9.1 Quick Reference Commands<a class="headerlink" href="#91-quick-reference-commands" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># List all backups</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>oc<span class="w"> </span>get<span class="w"> </span>backup<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Check backup status</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>./scripts/verify-backup.sh<span class="w"> </span>&lt;backup-name&gt;
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="c1"># Manual backup</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>./scripts/02-backup-control-plane.sh<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>&lt;namespace&gt;
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Restore</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>./scripts/04-restore-same-cluster.sh<span class="w"> </span>&lt;backup-name&gt;
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="c1"># Check hosted cluster health</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>oc<span class="w"> </span>get<span class="w"> </span>hostedcluster<span class="w"> </span>-A<span class="w"> </span>-o<span class="w"> </span>wide
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>oc<span class="w"> </span>get<span class="w"> </span>nodepool<span class="w"> </span>-A<span class="w"> </span>-o<span class="w"> </span>wide
+</span></code></pre></div>
+<h3 id="92-related-documents">9.2 Related Documents<a class="headerlink" href="#92-related-documents" title="Permanent link">&para;</a></h3>
+<ul>
+<li>BACKUP-PROCEDURES.md - Detailed backup steps</li>
+<li>RESTORE-PROCEDURES.md - Detailed restore steps</li>
+<li>HCP Troubleshooting Guide - ../docs/troubleshooting.md</li>
+</ul>
+<h3 id="93-references">9.3 References<a class="headerlink" href="#93-references" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="https://docs.openshift.com/container-platform/latest/hosted_control_planes/hcp-high-availability.html">OpenShift HCP High Availability Documentation</a></li>
+<li><a href="https://docs.openshift.com/container-platform/latest/backup_and_restore/application_backup_and_restore/oadp-intro.html">OADP Operator Documentation</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      <strong>Disclaimer:</strong> Community exploration & education only. Not for production use.<br>
+Contact <strong>Red Hat Consulting Services</strong> for recommended solutions.<br>
+Open a <strong>Red Hat Support Case</strong> for compatibility and supported options.
+
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

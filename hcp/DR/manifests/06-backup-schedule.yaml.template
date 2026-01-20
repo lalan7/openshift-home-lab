@@ -1,0 +1,50 @@
+---
+# Scheduled Backup for HCP Control Plane
+#
+# Required environment variables:
+#   HOSTED_CLUSTER_NAMESPACE      - Namespace where HostedCluster CR lives (e.g., clusters)
+#   HOSTED_CONTROL_PLANE_NAMESPACE - Namespace of control plane pods (e.g., clusters-my-hcp)
+#
+# Usage:
+#   envsubst < 06-backup-schedule.yaml.template | oc apply -f -
+#
+apiVersion: velero.io/v1
+kind: Schedule
+metadata:
+  name: hcp-daily-backup
+  namespace: openshift-adp
+  labels:
+    app.kubernetes.io/component: hcp-backup
+spec:
+  # Daily at 2 AM UTC
+  schedule: "0 2 * * *"
+  template:
+    # Retain backups for 7 days
+    ttl: 168h0m0s
+    hooks: {}
+    includedNamespaces:
+      - ${HOSTED_CLUSTER_NAMESPACE}
+      - ${HOSTED_CONTROL_PLANE_NAMESPACE}
+    includedResources:
+      - hostedclusters
+      - hostedcontrolplanes
+      - nodepools
+      - secrets
+      - configmaps
+      - serviceaccounts
+      - roles
+      - rolebindings
+      - clusterroles
+      - clusterrolebindings
+      - persistentvolumeclaims
+      - agentmachines
+      - machines.cluster.x-k8s.io
+    excludedResources:
+      - events
+      - pods
+    labelSelector:
+      matchExpressions: []
+    storageLocation: default
+    snapshotMoveData: true
+    datamover: velero
+    defaultVolumesToFsBackup: false

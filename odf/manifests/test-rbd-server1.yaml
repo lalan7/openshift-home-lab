@@ -1,0 +1,57 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: test-rbd-server1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: test-rbd-mgmt-worker
+  namespace: test-rbd-server1
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: ocs-storagecluster-ceph-rbd-kvm
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-rbd-mgmt-worker
+  namespace: test-rbd-server1
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: management-worker-1.hypershift.lab
+  containers:
+  - name: test
+    image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+    command:
+      - /bin/sh
+      - -c
+      - |
+        echo "=== RBD Mount Test on Server 1 ==="
+        echo "Hostname: $(hostname)"
+        echo "Node: $(cat /etc/hostname 2>/dev/null || echo 'N/A')"
+        echo "Mount point: /data"
+        echo ""
+        df -h /data
+        echo ""
+        echo "Writing test file..."
+        dd if=/dev/zero of=/data/testfile bs=1M count=100
+        echo ""
+        echo "Test file created successfully!"
+        ls -lh /data/testfile
+        echo ""
+        echo "=== Test PASSED ==="
+        sleep infinity
+    volumeMounts:
+    - name: data
+      mountPath: /data
+  volumes:
+  - name: data
+    persistentVolumeClaim:
+      claimName: test-rbd-mgmt-worker
+

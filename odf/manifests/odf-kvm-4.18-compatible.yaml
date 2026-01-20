@@ -1,0 +1,254 @@
+# ODF 4.18 Lightweight Configuration for KVM
+# 
+# VERIFIED COMPATIBLE with ODF 4.18 / OpenShift 4.18
+# This uses only documented, stable API fields
+#
+# Date: October 31, 2025
+
+---
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  # Version compatibility
+  version: "4.18.0"
+  
+  # Manage nodes automatically
+  manageNodes: false
+  
+  # Disable MultiCloud Gateway (not needed for testing)
+  multiCloudGateway:
+    reconcileStrategy: ignore
+  
+  # Monitoring configuration
+  enableCephTools: true
+  
+  # Minimal resource requirements for testing
+  resources:
+    mds:
+      limits:
+        cpu: "1"
+        memory: "4Gi"
+      requests:
+        cpu: "500m"
+        memory: "2Gi"
+    mgr:
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+    mon:
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+    noobaa-core:
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+    noobaa-db:
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+    rgw:
+      limits:
+        cpu: "1"
+        memory: "2Gi"
+      requests:
+        cpu: "500m"
+        memory: "1Gi"
+
+  # Storage device sets - lightweight for testing
+  storageDeviceSets:
+  - name: ocs-deviceset
+    count: 3
+    replica: 1
+    portable: true
+    resources:
+      limits:
+        cpu: "2"
+        memory: "4Gi"
+      requests:
+        cpu: "1"
+        memory: "2Gi"
+    placement: {}
+    preparePlacement: {}
+    dataPVCTemplate:
+      metadata: {}
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: "100Gi"
+        storageClassName: 'localblock'
+        volumeMode: Block
+      status: {}
+
+---
+# Ceph configuration override ConfigMap
+# This is the ODF 4.18 recommended way to tune Ceph
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rook-config-override
+  namespace: openshift-storage
+data:
+  config: |
+    [global]
+    # KVM-optimized timeouts
+    osd_heartbeat_grace = 60
+    osd_heartbeat_interval = 10
+    osd_op_complaint_time = 60
+    mon_osd_down_out_interval = 600
+    
+    # Reduce performance expectations for virtualization
+    osd_recovery_max_active = 1
+    osd_max_backfills = 1
+    osd_recovery_op_priority = 1
+    
+    # Memory optimization
+    osd_memory_target = 2147483648
+    
+    # Network tolerance for KVM networking
+    ms_bind_retry_delay = 10
+    ms_bind_retry_count = 5
+    
+    # Reduce CPU overhead
+    bluestore_compression_mode = none
+    bluestore_prefer_deferred_size_hdd = 0
+    
+    [osd]
+    # Increase timeouts for slow virtualized I/O
+    osd_op_thread_timeout = 60
+    osd_journal_size = 2048
+    
+    [mon]
+    mon_osd_report_timeout = 900
+    mon_allow_pool_delete = false
+    
+    [mgr]
+    mgr_tick_period = 10
+
+---
+# CephBlockPool with KVM-optimized settings
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: ocs-storagecluster-cephblockpool
+  namespace: openshift-storage
+spec:
+  failureDomain: host
+  replicated:
+    size: 2
+    requireSafeReplicaSize: false
+  compressionMode: none
+  deviceClass: ""
+  enableRBDStats: false
+
+---
+# StorageClass with KVM-optimized RBD parameters
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ocs-storagecluster-ceph-rbd-kvm
+  annotations:
+    description: "RBD storage class optimized for KVM virtualization"
+provisioner: openshift-storage.rbd.csi.ceph.com
+parameters:
+  clusterID: openshift-storage
+  pool: ocs-storagecluster-cephblockpool
+  
+  # CRITICAL: Disable exclusive-lock for KVM compatibility
+  imageFeatures: layering
+  
+  # CSI secrets
+  csi.storage.k8s.io/provisioner-secret-name: rook-csi-rbd-provisioner
+  csi.storage.k8s.io/provisioner-secret-namespace: openshift-storage
+  csi.storage.k8s.io/controller-expand-secret-name: rook-csi-rbd-provisioner
+  csi.storage.k8s.io/controller-expand-secret-namespace: openshift-storage
+  csi.storage.k8s.io/node-stage-secret-name: rook-csi-rbd-node
+  csi.storage.k8s.io/node-stage-secret-namespace: openshift-storage
+  
+  # Filesystem and mount options
+  csi.storage.k8s.io/fstype: ext4
+  
+  # Use kernel RBD
+  mounter: rbd
+  
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: Immediate
+
+---
+# CephFilesystem - lightweight configuration
+apiVersion: ceph.rook.io/v1
+kind: CephFilesystem
+metadata:
+  name: ocs-storagecluster-cephfilesystem
+  namespace: openshift-storage
+spec:
+  metadataPool:
+    replicated:
+      size: 2
+      requireSafeReplicaSize: false
+    compressionMode: none
+  dataPools:
+  - name: data0
+    replicated:
+      size: 2
+      requireSafeReplicaSize: false
+    compressionMode: none
+  preserveFilesystemOnDelete: false
+  metadataServer:
+    activeCount: 1
+    activeStandby: false
+    resources:
+      limits:
+        cpu: "1"
+        memory: "4Gi"
+      requests:
+        cpu: "500m"
+        memory: "2Gi"
+    placement: {}
+    priorityClassName: ""
+
+---
+# StorageClass for CephFS (if needed)
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: ocs-storagecluster-cephfs-kvm
+  annotations:
+    description: "CephFS storage class for shared storage (limited PostgreSQL support)"
+provisioner: openshift-storage.cephfs.csi.ceph.com
+parameters:
+  clusterID: openshift-storage
+  fsName: ocs-storagecluster-cephfilesystem
+  pool: ocs-storagecluster-cephfilesystem-data0
+  
+  # CSI secrets
+  csi.storage.k8s.io/provisioner-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/provisioner-secret-namespace: openshift-storage
+  csi.storage.k8s.io/controller-expand-secret-name: rook-csi-cephfs-provisioner
+  csi.storage.k8s.io/controller-expand-secret-namespace: openshift-storage
+  csi.storage.k8s.io/node-stage-secret-name: rook-csi-cephfs-node
+  csi.storage.k8s.io/node-stage-secret-namespace: openshift-storage
+  
+reclaimPolicy: Delete
+allowVolumeExpansion: true
+volumeBindingMode: Immediate
+
+

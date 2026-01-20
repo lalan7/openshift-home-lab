@@ -1,0 +1,73 @@
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: storage-network-server1-worker0
+  labels:
+    purpose: storage-network
+    server: server1
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: management-worker-0.hypershift.lab
+  desiredState:
+    interfaces:
+    - name: ens11
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.30
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: storage-network-server1-worker1
+  labels:
+    purpose: storage-network
+    server: server1
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: management-worker-1.hypershift.lab
+  desiredState:
+    interfaces:
+    - name: ens11
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.31
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: storage-network-server1-worker2
+  labels:
+    purpose: storage-network
+    server: server1
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: management-worker-2.hypershift.lab
+  desiredState:
+    interfaces:
+    - name: ens11
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.32
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false
+

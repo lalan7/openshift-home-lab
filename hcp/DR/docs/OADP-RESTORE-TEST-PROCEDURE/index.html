@@ -1,0 +1,2457 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical Documentation - Community Exploration">
+      
+      
+        <meta name="author" content="Erik Lalancette">
+      
+      
+      
+        <link rel="prev" href="../OADP-HCP-SETUP-2026-01-19/">
+      
+      
+        <link rel="next" href="../../runbooks/HIGH-AVAILABILITY-GUIDE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Restore Test - OpenShift Knowledge Base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oadp-hcp-restore-test-procedure" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="OpenShift Knowledge Base" class="md-header__button md-logo" aria-label="OpenShift Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenShift Knowledge Base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Restore Test
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  HCP Disaster Recovery
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../odf/docs/RGW-S3-Usage-Guide/" class="md-tabs__link">
+          
+  
+  
+  Storage
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="OpenShift Knowledge Base" class="md-nav__button md-logo" aria-label="OpenShift Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    OpenShift Knowledge Base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCP Disaster Recovery
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HCP Disaster Recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OADP-HCP-SETUP-2026-01-19/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore Test
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-oadp-hcp-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding OADP HCP Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding OADP HCP Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-oadp-backs-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What OADP Backs Up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-insight-etcd-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Insight: etcd Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-simple-restore-doesnt-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Simple Restore Doesn't Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proper-restore-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proper Restore Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-procedure-full-etcd-restore-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Procedure: Full etcd Restore Test
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Procedure: Full etcd Restore Test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-create-test-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Create Test Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-take-backup-with-test-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Take Backup with Test Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-delete-test-data-simulate-corruption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Delete Test Data (Simulate Corruption)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-perform-etcd-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Perform etcd Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 4: Perform etcd Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#determine-etcd-replica-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Determine etcd Replica Count
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-41-pause-hostedcluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.1: Pause HostedCluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-42-scale-down-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.2: Scale Down etcd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-43-delete-etcd-pvcs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.3: Delete etcd PVC(s)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-44-run-oadp-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.4: Run OADP Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-45-verify-pvc-is-restored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.5: Verify PVC is Restored
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-46-scale-up-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.6: Scale Up etcd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-47-resume-hostedcluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.7: Resume HostedCluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-verify-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Verify Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 5: Verify Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-check-hostedcluster-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1: Check HostedCluster Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-check-control-plane-pods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2: Check Control Plane Pods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-verify-test-data-is-restored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3: Verify Test Data is Restored
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-6-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6: Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands-summary-singlereplica-1-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands Summary - SingleReplica (1 etcd)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands-summary-highlyavailable-3-etcd-not-tested" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands Summary - HighlyAvailable (3 etcd) ⚠️ NOT TESTED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etcd-replica-configuration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        etcd Replica Configuration Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etcd-pod-not-starting-after-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        etcd Pod Not Starting After Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-stuck-in-inprogress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore Stuck in InProgress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hostedcluster-not-becoming-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HostedCluster Not Becoming Available
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-tested" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not Tested
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Runbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/HIGH-AVAILABILITY-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HA Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/DR-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DR Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/BACKUP-PROCEDURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/RESTORE-PROCEDURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../odf/docs/RGW-S3-Usage-Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3 Usage Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prerequisites">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#verify-prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#understanding-oadp-hcp-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understanding OADP HCP Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understanding OADP HCP Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-oadp-backs-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What OADP Backs Up
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#key-insight-etcd-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Insight: etcd Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-simple-restore-doesnt-work" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Simple Restore Doesn't Work
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proper-restore-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Proper Restore Procedure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-procedure-full-etcd-restore-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Procedure: Full etcd Restore Test
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Procedure: Full etcd Restore Test">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phase-1-create-test-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1: Create Test Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-2-take-backup-with-test-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 2: Take Backup with Test Data
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-3-delete-test-data-simulate-corruption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 3: Delete Test Data (Simulate Corruption)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-4-perform-etcd-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 4: Perform etcd Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 4: Perform etcd Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#determine-etcd-replica-count" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Determine etcd Replica Count
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-41-pause-hostedcluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.1: Pause HostedCluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-42-scale-down-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.2: Scale Down etcd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-43-delete-etcd-pvcs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.3: Delete etcd PVC(s)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-44-run-oadp-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.4: Run OADP Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-45-verify-pvc-is-restored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.5: Verify PVC is Restored
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-46-scale-up-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.6: Scale Up etcd
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-47-resume-hostedcluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4.7: Resume HostedCluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-5-verify-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 5: Verify Restore
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phase 5: Verify Restore">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-check-hostedcluster-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1: Check HostedCluster Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-check-control-plane-pods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2: Check Control Plane Pods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-verify-test-data-is-restored" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3: Verify Test Data is Restored
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#phase-6-cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 6: Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#environment-variables" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment Variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands-summary-singlereplica-1-etcd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands Summary - SingleReplica (1 etcd)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#commands-summary-highlyavailable-3-etcd-not-tested" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands Summary - HighlyAvailable (3 etcd) ⚠️ NOT TESTED
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#etcd-replica-configuration-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        etcd Replica Configuration Reference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#etcd-pod-not-starting-after-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        etcd Pod Not Starting After Restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-stuck-in-inprogress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore Stuck in InProgress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hostedcluster-not-becoming-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HostedCluster Not Becoming Available
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#test-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Results
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Test Results">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#test-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Test Checklist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#not-tested" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Not Tested
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="admonition warning">
+<p class="admonition-title">Disclaimer</p>
+<p>This documentation is for <strong>community exploration and education</strong> only.
+<strong>Not for production use.</strong> Contact Red Hat Consulting for recommended solutions.
+Open a Red Hat Support Case for compatibility and supported options.</p>
+</div>
+<hr />
+<h1 id="oadp-hcp-restore-test-procedure">OADP HCP Restore Test Procedure<a class="headerlink" href="#oadp-hcp-restore-test-procedure" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2026-01-19<br />
+<strong>Cluster:</strong> management-hypershift-lab<br />
+<strong>Hosted Cluster:</strong> sno-hcp<br />
+<strong>Control Plane Namespace:</strong> clusters-sno-hcp</p>
+<blockquote>
+<p>⚠️ <strong>Note:</strong> This procedure was tested with <strong>SingleReplica</strong> etcd (1 pod). The HighlyAvailable (3 etcd) commands are documented but <strong>not yet tested</strong>. The same principles apply, but with 3 PVCs and 3 pods.</p>
+</blockquote>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This document provides a step-by-step procedure to test OADP restore of the HCP control plane, including etcd data recovery.</p>
+<hr />
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> OADP installed and configured</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Valid backup exists with etcd data</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>oc</code> CLI with cluster-admin access</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Hosted cluster kubeconfig available</li>
+</ul>
+<h3 id="verify-prerequisites">Verify Prerequisites<a class="headerlink" href="#verify-prerequisites" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Check OADP is ready</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>oc<span class="w"> </span>get<span class="w"> </span>dpa<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>oc<span class="w"> </span>get<span class="w"> </span>backupstoragelocation<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># List available backups</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>oc<span class="w"> </span>get<span class="w"> </span>backup<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Verify backup includes etcd data (DataUpload completed)</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>oc<span class="w"> </span>get<span class="w"> </span>dataupload<span class="w"> </span>-n<span class="w"> </span>openshift-adp<span class="w"> </span>-l<span class="w"> </span>velero.io/backup-name<span class="o">=</span>&lt;backup-name&gt;
+</span></code></pre></div>
+<hr />
+<h2 id="understanding-oadp-hcp-restore">Understanding OADP HCP Restore<a class="headerlink" href="#understanding-oadp-hcp-restore" title="Permanent link">&para;</a></h2>
+<h3 id="what-oadp-backs-up">What OADP Backs Up<a class="headerlink" href="#what-oadp-backs-up" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Location</th>
+<th>Backup Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HostedCluster CR</td>
+<td><code>clusters</code> namespace</td>
+<td>K8s resource</td>
+</tr>
+<tr>
+<td>NodePool CR</td>
+<td><code>clusters</code> namespace</td>
+<td>K8s resource</td>
+</tr>
+<tr>
+<td>Secrets</td>
+<td><code>clusters</code> + control plane namespace</td>
+<td>K8s resource</td>
+</tr>
+<tr>
+<td>ConfigMaps</td>
+<td><code>clusters</code> + control plane namespace</td>
+<td>K8s resource</td>
+</tr>
+<tr>
+<td>etcd PVC (<code>data-etcd-0</code>)</td>
+<td><code>clusters-sno-hcp</code></td>
+<td>CSI Snapshot → S3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="key-insight-etcd-data">Key Insight: etcd Data<a class="headerlink" href="#key-insight-etcd-data" title="Permanent link">&para;</a></h3>
+<p>The etcd PVC contains all hosted cluster data:
+- Namespaces
+- Deployments
+- ConfigMaps
+- Secrets
+- All Kubernetes resources in the hosted cluster</p>
+<p><strong>When you restore the etcd PVC, you restore the entire hosted cluster state.</strong></p>
+<h3 id="why-simple-restore-doesnt-work">Why Simple Restore Doesn't Work<a class="headerlink" href="#why-simple-restore-doesnt-work" title="Permanent link">&para;</a></h3>
+<p>A restore with <code>existingResourcePolicy: update</code>:
+- Updates K8s resources on management cluster ✅
+- Restores etcd PVC data to the volume ✅
+- <strong>BUT: Running etcd pod doesn't reload the restored data</strong> ❌</p>
+<p>The etcd pod has the data in memory and on its mounted volume. The restored data is written to the volume, but etcd doesn't know to reload it.</p>
+<h3 id="proper-restore-procedure">Proper Restore Procedure<a class="headerlink" href="#proper-restore-procedure" title="Permanent link">&para;</a></h3>
+<p>To properly restore etcd data:
+1. Scale down etcd (stop the pod)
+2. Delete the etcd PVC (remove current data)
+3. Run OADP restore (recreates PVC with backup data)
+4. Scale up etcd (pod starts with restored data)</p>
+<hr />
+<h2 id="test-procedure-full-etcd-restore-test">Test Procedure: Full etcd Restore Test<a class="headerlink" href="#test-procedure-full-etcd-restore-test" title="Permanent link">&para;</a></h2>
+<h3 id="phase-1-create-test-data">Phase 1: Create Test Data<a class="headerlink" href="#phase-1-create-test-data" title="Permanent link">&para;</a></h3>
+<p>Create a marker in the hosted cluster that we can verify after restore.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Extract hosted cluster kubeconfig</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>oc<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>sno-hcp-admin-kubeconfig<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.kubeconfig}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>/tmp/sno-hcp-kubeconfig
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># Create test ConfigMap in hosted cluster</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/sno-hcp-kubeconfig<span class="w"> </span>oc<span class="w"> </span>create<span class="w"> </span>configmap<span class="w"> </span>oadp-restore-test<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span>-n<span class="w"> </span>default<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span>--from-literal<span class="o">=</span>test-key<span class="o">=</span><span class="s2">&quot;restore-test-</span><span class="k">$(</span>date<span class="w"> </span>+%Y%m%d-%H%M%S<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">created</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">purpose</span><span class="o">=</span><span class="s2">&quot;OADP restore verification&quot;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Verify it was created</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/sno-hcp-kubeconfig<span class="w"> </span>oc<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>oadp-restore-test<span class="w"> </span>-n<span class="w"> </span>default<span class="w"> </span>-o<span class="w"> </span>yaml
+</span></code></pre></div>
+<p><strong>Record the test-key value:</strong> <code>restore-test-YYYYMMDD-HHMMSS</code></p>
+<hr />
+<h3 id="phase-2-take-backup-with-test-data">Phase 2: Take Backup with Test Data<a class="headerlink" href="#phase-2-take-backup-with-test-data" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nb">cd</span><span class="w"> </span>~/Documents/code/MYHOMELAB/hcp/DR
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Take backup (includes the test ConfigMap in etcd)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>./scripts/02-backup-control-plane.sh<span class="w"> </span>sno-hcp<span class="w"> </span>clusters
+</span></code></pre></div>
+<p><strong>Wait for backup to complete:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># Watch backup progress</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>oc<span class="w"> </span>get<span class="w"> </span>backup<span class="w"> </span>-n<span class="w"> </span>openshift-adp<span class="w"> </span>-w
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># Record backup name: hcp-sno-hcp-YYYYMMDD-HHMMSS</span>
+</span></code></pre></div></p>
+<p><strong>Verify etcd data was captured:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Check DataUpload completed (should show ~400MB for etcd)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>oc<span class="w"> </span>get<span class="w"> </span>dataupload<span class="w"> </span>-n<span class="w"> </span>openshift-adp<span class="w"> </span>-l<span class="w"> </span>velero.io/backup-name<span class="o">=</span>&lt;backup-name&gt;
+</span></code></pre></div></p>
+<p><strong>Resume reconciliation:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>oc<span class="w"> </span>patch<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;pausedUntil&quot;:null}}&#39;</span>
+</span></code></pre></div></p>
+<hr />
+<h3 id="phase-3-delete-test-data-simulate-corruption">Phase 3: Delete Test Data (Simulate Corruption)<a class="headerlink" href="#phase-3-delete-test-data-simulate-corruption" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Delete the test ConfigMap from hosted cluster</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/sno-hcp-kubeconfig<span class="w"> </span>oc<span class="w"> </span>delete<span class="w"> </span>configmap<span class="w"> </span>oadp-restore-test<span class="w"> </span>-n<span class="w"> </span>default
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># Verify it&#39;s gone</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/sno-hcp-kubeconfig<span class="w"> </span>oc<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>oadp-restore-test<span class="w"> </span>-n<span class="w"> </span>default
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># Expected: Error from server (NotFound)</span>
+</span></code></pre></div>
+<hr />
+<h3 id="phase-4-perform-etcd-restore">Phase 4: Perform etcd Restore<a class="headerlink" href="#phase-4-perform-etcd-restore" title="Permanent link">&para;</a></h3>
+<p>This is the critical phase where we restore the etcd data.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CONTROL_PLANE_NAMESPACE</span><span class="o">=</span><span class="s2">&quot;clusters-sno-hcp&quot;</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">BACKUP_NAME</span><span class="o">=</span><span class="s2">&quot;hcp-sno-hcp-YYYYMMDD-HHMMSS&quot;</span><span class="w">  </span><span class="c1"># Use your actual backup name</span>
+</span></code></pre></div>
+<h4 id="determine-etcd-replica-count">Determine etcd Replica Count<a class="headerlink" href="#determine-etcd-replica-count" title="Permanent link">&para;</a></h4>
+<p>First, check your HCP availability policy to determine etcd replica count:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="c1"># Check HostedCluster availability policy</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>oc<span class="w"> </span>get<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.controllerAvailabilityPolicy}&#39;</span>
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Policy</th>
+<th>etcd Replicas</th>
+<th>PVCs to Delete</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SingleReplica</code></td>
+<td>1</td>
+<td><code>data-etcd-0</code></td>
+</tr>
+<tr>
+<td><code>HighlyAvailable</code></td>
+<td>3</td>
+<td><code>data-etcd-0</code>, <code>data-etcd-1</code>, <code>data-etcd-2</code></td>
+</tr>
+</tbody>
+</table>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># Get current replica count</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nv">ETCD_REPLICAS</span><span class="o">=</span><span class="k">$(</span>oc<span class="w"> </span>get<span class="w"> </span>statefulset<span class="w"> </span>etcd<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.replicas}&#39;</span><span class="k">)</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;etcd replicas: </span><span class="nv">$ETCD_REPLICAS</span><span class="s2">&quot;</span>
+</span></code></pre></div>
+<h4 id="step-41-pause-hostedcluster">Step 4.1: Pause HostedCluster<a class="headerlink" href="#step-41-pause-hostedcluster" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>oc<span class="w"> </span>patch<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;pausedUntil&quot;:&quot;true&quot;}}&#39;</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># Verify</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>oc<span class="w"> </span>get<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.pausedUntil}&#39;</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="c1"># Should show: true</span>
+</span></code></pre></div>
+<h4 id="step-42-scale-down-etcd">Step 4.2: Scale Down etcd<a class="headerlink" href="#step-42-scale-down-etcd" title="Permanent link">&para;</a></h4>
+<p><strong>For SingleReplica (1 etcd):</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># Scale etcd to 0</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>oc<span class="w"> </span>scale<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>statefulset/etcd<span class="w"> </span>--replicas<span class="o">=</span><span class="m">0</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="c1"># Wait for etcd pod to terminate</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>oc<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span>delete<span class="w"> </span>pod/etcd-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>--timeout<span class="o">=</span>120s
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="c1"># Verify no etcd pods</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>etcd
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="c1"># Should show: No resources found</span>
+</span></code></pre></div></p>
+<p><strong>For HighlyAvailable (3 etcd):</strong> <em>(not tested)</em>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Scale etcd to 0</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>oc<span class="w"> </span>scale<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>statefulset/etcd<span class="w"> </span>--replicas<span class="o">=</span><span class="m">0</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="c1"># Wait for all etcd pods to terminate</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>oc<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span>delete<span class="w"> </span>pod/etcd-0<span class="w"> </span>pod/etcd-1<span class="w"> </span>pod/etcd-2<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">  </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>--timeout<span class="o">=</span>120s
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c1"># Verify no etcd pods</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>etcd
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="c1"># Should show: No resources found</span>
+</span></code></pre></div></p>
+<blockquote>
+<p>⚠️ <strong>At this point, the hosted cluster API is DOWN. This is expected.</strong></p>
+</blockquote>
+<h4 id="step-43-delete-etcd-pvcs">Step 4.3: Delete etcd PVC(s)<a class="headerlink" href="#step-43-delete-etcd-pvcs" title="Permanent link">&para;</a></h4>
+<p><strong>For SingleReplica (1 etcd):</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c1"># Delete the etcd PVC</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>oc<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>data-etcd-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c1"># Wait for deletion</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>oc<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>etcd
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="c1"># Should show nothing</span>
+</span></code></pre></div></p>
+<p><strong>For HighlyAvailable (3 etcd):</strong> <em>(not tested)</em>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Delete all etcd PVCs</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>oc<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>data-etcd-0<span class="w"> </span>data-etcd-1<span class="w"> </span>data-etcd-2<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># Wait for deletion</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>oc<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>etcd
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="c1"># Should show nothing</span>
+</span></code></pre></div></p>
+<h4 id="step-44-run-oadp-restore">Step 4.4: Run OADP Restore<a class="headerlink" href="#step-44-run-oadp-restore" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nb">cd</span><span class="w"> </span>~/Documents/code/MYHOMELAB/hcp/DR
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1"># Run restore script</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>./scripts/04-restore-same-cluster.sh<span class="w"> </span><span class="nv">$BACKUP_NAME</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="c1"># When prompted, type &#39;yes&#39; to confirm</span>
+</span></code></pre></div>
+<p><strong>Monitor restore progress:</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="c1"># Watch restore status</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>oc<span class="w"> </span>get<span class="w"> </span>restore<span class="w"> </span>-n<span class="w"> </span>openshift-adp<span class="w"> </span>-w
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="c1"># Check for DataDownload (etcd data being restored)</span>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>oc<span class="w"> </span>get<span class="w"> </span>datadownload<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span></code></pre></div></p>
+<p><strong>Wait for restore to complete</strong> (Phase: Completed)</p>
+<h4 id="step-45-verify-pvc-is-restored">Step 4.5: Verify PVC is Restored<a class="headerlink" href="#step-45-verify-pvc-is-restored" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># Check etcd PVC exists</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>oc<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>data-etcd-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="c1"># Expected: Bound status</span>
+</span></code></pre></div>
+<h4 id="step-46-scale-up-etcd">Step 4.6: Scale Up etcd<a class="headerlink" href="#step-46-scale-up-etcd" title="Permanent link">&para;</a></h4>
+<p><strong>For SingleReplica (1 etcd):</strong>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># Scale etcd back up to 1</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>oc<span class="w"> </span>scale<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>statefulset/etcd<span class="w"> </span>--replicas<span class="o">=</span><span class="m">1</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># Wait for etcd to be ready</span>
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>oc<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span>pod/etcd-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>--timeout<span class="o">=</span>300s
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="c1"># Verify etcd is running</span>
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>etcd
+</span></code></pre></div></p>
+<p><strong>For HighlyAvailable (3 etcd):</strong> <em>(not tested)</em>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># Scale etcd back up to 3</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>oc<span class="w"> </span>scale<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>statefulset/etcd<span class="w"> </span>--replicas<span class="o">=</span><span class="m">3</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="c1"># Wait for all etcd pods to be ready</span>
+</span><span id="__span-19-5"><a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>oc<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span>pod/etcd-0<span class="w"> </span>pod/etcd-1<span class="w"> </span>pod/etcd-2<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-19-6"><a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a><span class="w">  </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>--timeout<span class="o">=</span>300s
+</span><span id="__span-19-7"><a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>
+</span><span id="__span-19-8"><a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a><span class="c1"># Verify all etcd pods are running</span>
+</span><span id="__span-19-9"><a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>etcd
+</span><span id="__span-19-10"><a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a><span class="c1"># Should show: etcd-0, etcd-1, etcd-2 all Running</span>
+</span><span id="__span-19-11"><a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>
+</span><span id="__span-19-12"><a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="c1"># Verify etcd cluster health</span>
+</span><span id="__span-19-13"><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>oc<span class="w"> </span>rsh<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>-c<span class="w"> </span>etcd<span class="w"> </span>etcd-0<span class="w"> </span>etcdctl<span class="w"> </span>endpoint<span class="w"> </span>health<span class="w"> </span>--cluster
+</span></code></pre></div></p>
+<h4 id="step-47-resume-hostedcluster">Step 4.7: Resume HostedCluster<a class="headerlink" href="#step-47-resume-hostedcluster" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>oc<span class="w"> </span>patch<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;pausedUntil&quot;:null}}&#39;</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="c1"># Wait for HostedCluster to become available</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>oc<span class="w"> </span>get<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>-w
+</span></code></pre></div>
+<hr />
+<h3 id="phase-5-verify-restore">Phase 5: Verify Restore<a class="headerlink" href="#phase-5-verify-restore" title="Permanent link">&para;</a></h3>
+<h4 id="51-check-hostedcluster-health">5.1: Check HostedCluster Health<a class="headerlink" href="#51-check-hostedcluster-health" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>oc<span class="w"> </span>get<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="c1"># Expected: Available=True</span>
+</span></code></pre></div>
+<h4 id="52-check-control-plane-pods">5.2: Check Control Plane Pods<a class="headerlink" href="#52-check-control-plane-pods" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="c1"># All pods should be Running</span>
+</span></code></pre></div>
+<h4 id="53-verify-test-data-is-restored">5.3: Verify Test Data is Restored<a class="headerlink" href="#53-verify-test-data-is-restored" title="Permanent link">&para;</a></h4>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Re-extract kubeconfig (may have been refreshed)</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>oc<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>sno-hcp-admin-kubeconfig<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.kubeconfig}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>/tmp/sno-hcp-kubeconfig
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="c1"># Check if ConfigMap is back</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/sno-hcp-kubeconfig<span class="w"> </span>oc<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>oadp-restore-test<span class="w"> </span>-n<span class="w"> </span>default
+</span><span id="__span-23-7"><a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a>
+</span><span id="__span-23-8"><a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a><span class="c1"># View the restored data</span>
+</span><span id="__span-23-9"><a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/sno-hcp-kubeconfig<span class="w"> </span>oc<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>oadp-restore-test<span class="w"> </span>-n<span class="w"> </span>default<span class="w"> </span>-o<span class="w"> </span>yaml
+</span></code></pre></div>
+<p><strong>Expected output:</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="nt">data</span><span class="p">:</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="w">  </span><span class="nt">created</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Mon Jan 19 13:53:06 EST 2026</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="w">  </span><span class="nt">purpose</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">OADP restore verification</span>
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="w">  </span><span class="nt">test-key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore-test-20260119-135306</span><span class="w">  </span><span class="c1"># Should match original value</span>
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oadp-restore-test</span>
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+</span></code></pre></div></p>
+<p><strong>If the ConfigMap is back with the original values, the restore was successful!</strong></p>
+<hr />
+<h3 id="phase-6-cleanup">Phase 6: Cleanup<a class="headerlink" href="#phase-6-cleanup" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="c1"># Delete test ConfigMap</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="nv">KUBECONFIG</span><span class="o">=</span>/tmp/sno-hcp-kubeconfig<span class="w"> </span>oc<span class="w"> </span>delete<span class="w"> </span>configmap<span class="w"> </span>oadp-restore-test<span class="w"> </span>-n<span class="w"> </span>default
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="c1"># Clean up kubeconfig</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>rm<span class="w"> </span>/tmp/sno-hcp-kubeconfig
+</span></code></pre></div>
+<hr />
+<h2 id="quick-reference">Quick Reference<a class="headerlink" href="#quick-reference" title="Permanent link">&para;</a></h2>
+<h3 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">CONTROL_PLANE_NAMESPACE</span><span class="o">=</span><span class="s2">&quot;clusters-sno-hcp&quot;</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">BACKUP_NAME</span><span class="o">=</span><span class="s2">&quot;hcp-sno-hcp-YYYYMMDD-HHMMSS&quot;</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="c1"># Get current etcd replica count</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="nv">ETCD_REPLICAS</span><span class="o">=</span><span class="k">$(</span>oc<span class="w"> </span>get<span class="w"> </span>statefulset<span class="w"> </span>etcd<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.replicas}&#39;</span><span class="k">)</span>
+</span></code></pre></div>
+<h3 id="commands-summary-singlereplica-1-etcd">Commands Summary - SingleReplica (1 etcd)<a class="headerlink" href="#commands-summary-singlereplica-1-etcd" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pause HCP</td>
+<td><code>oc patch hostedcluster sno-hcp -n clusters --type=merge -p '{"spec":{"pausedUntil":"true"}}'</code></td>
+</tr>
+<tr>
+<td>Scale down etcd</td>
+<td><code>oc scale -n $CONTROL_PLANE_NAMESPACE statefulset/etcd --replicas=0</code></td>
+</tr>
+<tr>
+<td>Wait for etcd</td>
+<td><code>oc wait --for=delete pod/etcd-0 -n $CONTROL_PLANE_NAMESPACE --timeout=120s</code></td>
+</tr>
+<tr>
+<td>Delete PVC</td>
+<td><code>oc delete pvc data-etcd-0 -n $CONTROL_PLANE_NAMESPACE</code></td>
+</tr>
+<tr>
+<td>Run restore</td>
+<td><code>./scripts/04-restore-same-cluster.sh $BACKUP_NAME</code></td>
+</tr>
+<tr>
+<td>Scale up etcd</td>
+<td><code>oc scale -n $CONTROL_PLANE_NAMESPACE statefulset/etcd --replicas=1</code></td>
+</tr>
+<tr>
+<td>Wait for etcd</td>
+<td><code>oc wait --for=condition=Ready pod/etcd-0 -n $CONTROL_PLANE_NAMESPACE --timeout=300s</code></td>
+</tr>
+<tr>
+<td>Resume HCP</td>
+<td><code>oc patch hostedcluster sno-hcp -n clusters --type=merge -p '{"spec":{"pausedUntil":null}}'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="commands-summary-highlyavailable-3-etcd-not-tested">Commands Summary - HighlyAvailable (3 etcd) ⚠️ NOT TESTED<a class="headerlink" href="#commands-summary-highlyavailable-3-etcd-not-tested" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Step</th>
+<th>Command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pause HCP</td>
+<td><code>oc patch hostedcluster &lt;name&gt; -n clusters --type=merge -p '{"spec":{"pausedUntil":"true"}}'</code></td>
+</tr>
+<tr>
+<td>Scale down etcd</td>
+<td><code>oc scale -n $CONTROL_PLANE_NAMESPACE statefulset/etcd --replicas=0</code></td>
+</tr>
+<tr>
+<td>Wait for etcd</td>
+<td><code>oc wait --for=delete pod/etcd-0 pod/etcd-1 pod/etcd-2 -n $CONTROL_PLANE_NAMESPACE --timeout=120s</code></td>
+</tr>
+<tr>
+<td>Delete PVCs</td>
+<td><code>oc delete pvc data-etcd-0 data-etcd-1 data-etcd-2 -n $CONTROL_PLANE_NAMESPACE</code></td>
+</tr>
+<tr>
+<td>Run restore</td>
+<td><code>./scripts/04-restore-same-cluster.sh $BACKUP_NAME</code></td>
+</tr>
+<tr>
+<td>Scale up etcd</td>
+<td><code>oc scale -n $CONTROL_PLANE_NAMESPACE statefulset/etcd --replicas=3</code></td>
+</tr>
+<tr>
+<td>Wait for etcd</td>
+<td><code>oc wait --for=condition=Ready pod/etcd-0 pod/etcd-1 pod/etcd-2 -n $CONTROL_PLANE_NAMESPACE --timeout=300s</code></td>
+</tr>
+<tr>
+<td>Verify health</td>
+<td><code>oc rsh -n $CONTROL_PLANE_NAMESPACE -c etcd etcd-0 etcdctl endpoint health --cluster</code></td>
+</tr>
+<tr>
+<td>Resume HCP</td>
+<td><code>oc patch hostedcluster &lt;name&gt; -n clusters --type=merge -p '{"spec":{"pausedUntil":null}}'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="etcd-replica-configuration-reference">etcd Replica Configuration Reference<a class="headerlink" href="#etcd-replica-configuration-reference" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>HostedCluster Setting</th>
+<th>etcd Replicas</th>
+<th>Use Case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>controllerAvailabilityPolicy: SingleReplica</code></td>
+<td>1</td>
+<td>Development, SNO, resource-constrained</td>
+</tr>
+<tr>
+<td><code>controllerAvailabilityPolicy: HighlyAvailable</code></td>
+<td>3</td>
+<td>Production, requires 3+ nodes</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="etcd-pod-not-starting-after-restore">etcd Pod Not Starting After Restore<a class="headerlink" href="#etcd-pod-not-starting-after-restore" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="c1"># Check etcd pod status</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>oc<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>etcd-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="c1"># Check etcd logs</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>oc<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>etcd-0<span class="w"> </span>-c<span class="w"> </span>etcd
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="c1"># Check PVC is mounted</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>oc<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>data-etcd-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span>
+</span></code></pre></div>
+<h3 id="restore-stuck-in-inprogress">Restore Stuck in InProgress<a class="headerlink" href="#restore-stuck-in-inprogress" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="c1"># Check restore details</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>oc<span class="w"> </span>describe<span class="w"> </span>restore<span class="w"> </span>&lt;restore-name&gt;<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="c1"># Check DataDownload status</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>oc<span class="w"> </span>get<span class="w"> </span>datadownload<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a><span class="c1"># Check node-agent logs</span>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a>oc<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>openshift-adp<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span>node-agent<span class="w"> </span>--tail<span class="o">=</span><span class="m">100</span>
+</span></code></pre></div>
+<h3 id="hostedcluster-not-becoming-available">HostedCluster Not Becoming Available<a class="headerlink" href="#hostedcluster-not-becoming-available" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># Check HostedCluster conditions</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>oc<span class="w"> </span>get<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A20<span class="w"> </span>conditions
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a><span class="c1"># Check all control plane pods</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="c1"># Check kube-apiserver logs</span>
+</span><span id="__span-29-8"><a id="__codelineno-29-8" name="__codelineno-29-8" href="#__codelineno-29-8"></a>oc<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CONTROL_PLANE_NAMESPACE</span><span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>kube-apiserver<span class="w"> </span>--tail<span class="o">=</span><span class="m">50</span>
+</span></code></pre></div>
+<hr />
+<h2 id="test-results">Test Results<a class="headerlink" href="#test-results" title="Permanent link">&para;</a></h2>
+<h3 id="test-configuration">Test Configuration<a class="headerlink" href="#test-configuration" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>etcd Availability</td>
+<td>SingleReplica (1 pod)</td>
+</tr>
+<tr>
+<td>etcd Replicas</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>ODF RBD (ocs-storagecluster-ceph-rbd)</td>
+</tr>
+<tr>
+<td>Backup Storage</td>
+<td>ODF RGW (S3)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="test-checklist">Test Checklist<a class="headerlink" href="#test-checklist" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Result</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backup created</td>
+<td>⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>etcd DataUpload completed</td>
+<td>⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>etcd scaled down</td>
+<td>⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>PVC deleted</td>
+<td>⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>Restore completed</td>
+<td>⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>PVC restored</td>
+<td>⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>etcd started with restored data</td>
+<td>⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>HostedCluster available</td>
+<td>⬜</td>
+<td></td>
+</tr>
+<tr>
+<td>Test ConfigMap restored</td>
+<td>⬜</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Test Date:</strong> <strong><em>_</em></strong><strong><em>_</em></strong><em><br />
+<strong>Backup Used:</strong> <strong><em>_</em></strong><strong><em>_</em></strong></em><br />
+<strong>Tester:</strong> <strong><em>_</em></strong><strong><em>_</em></strong>_</p>
+<h3 id="not-tested">Not Tested<a class="headerlink" href="#not-tested" title="Permanent link">&para;</a></h3>
+<ul>
+<li>HighlyAvailable (3 etcd replicas) - documented but not validated</li>
+</ul>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../../runbooks/HIGH-AVAILABILITY-GUIDE/">HIGH-AVAILABILITY-GUIDE.md</a> - Section 5.2: Restoring from etcd Snapshot</li>
+<li><a href="../../runbooks/RESTORE-PROCEDURES/">RESTORE-PROCEDURES.md</a> - Full restore procedures</li>
+<li><a href="../OADP-HCP-SETUP-2026-01-19/">OADP-HCP-SETUP-2026-01-19.md</a> - OADP setup documentation</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      <strong>Disclaimer:</strong> Community exploration & education only. Not for production use.<br>
+Contact <strong>Red Hat Consulting Services</strong> for recommended solutions.<br>
+Open a <strong>Red Hat Support Case</strong> for compatibility and supported options.
+
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

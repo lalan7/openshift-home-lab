@@ -1,0 +1,26 @@
+---
+# NNCP for management-worker-3 (GPU node)
+# Note: Uses ens4 instead of ens11 due to PCI slot assignment with GPU passthrough
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: storage-network-server1-worker3
+  labels:
+    purpose: storage-network
+    server: server1
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: management-worker-3.hypershift.lab
+  desiredState:
+    interfaces:
+    - name: ens4
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.33
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false

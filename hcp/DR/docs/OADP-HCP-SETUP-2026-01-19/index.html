@@ -1,0 +1,2698 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Technical Documentation - Community Exploration">
+      
+      
+        <meta name="author" content="Erik Lalancette">
+      
+      
+      
+        <link rel="prev" href="../../">
+      
+      
+        <link rel="next" href="../OADP-RESTORE-TEST-PROCEDURE/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Setup Guide - OpenShift Knowledge Base</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#oadp-hcp-backup-setup-step-by-step" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="OpenShift Knowledge Base" class="md-header__button md-logo" aria-label="OpenShift Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            OpenShift Knowledge Base
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Setup Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+  HCP Disaster Recovery
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../odf/docs/RGW-S3-Usage-Guide/" class="md-tabs__link">
+          
+  
+  
+  Storage
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="OpenShift Knowledge Base" class="md-nav__button md-logo" aria-label="OpenShift Knowledge Base" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    OpenShift Knowledge Base
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HCP Disaster Recovery
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HCP Disaster Recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Setup Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites-verified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites Verified
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-verify-rgw-s3-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Verify RGW S3 Storage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Verify RGW S3 Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-check-rgw-pods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Check RGW Pods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-check-rgw-storageclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Check RGW StorageClass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-test-s3-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Test S3 Connectivity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-verified-s3-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Verified S3 Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-cleanup-test-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Cleanup Test Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-install-oadp-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Install OADP Operator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Install OADP Operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-run-installation-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Run Installation Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 What the Script Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-verify-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Verify Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-rgw-bucket-and-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Create RGW Bucket and Credentials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Create RGW Bucket and Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-run-credentials-setup-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Run Credentials Setup Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 What the Script Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-created-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Created Resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-deploy-dataprotectionapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Deploy DataProtectionApplication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Deploy DataProtectionApplication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-run-dpa-deployment-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Run DPA Deployment Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 What the Script Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-dpa-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 DPA Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-verify-dpa-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Verify DPA Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-configure-csi-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Configure CSI Snapshots
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Configure CSI Snapshots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-label-volumesnapshotclass-for-velero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Label VolumeSnapshotClass for Velero
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-verify-label" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Verify Label
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-fix-backup-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Fix Backup Template
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 6: Fix Backup Template">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-issue-discovered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Issue Discovered
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-fix-applied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Fix Applied
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-take-first-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7: Take First Backup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 7: Take First Backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-run-backup-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Run Backup Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 What the Script Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-monitor-backup-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Monitor Backup Progress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-backup-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Backup Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-verify-etcd-data-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8: Verify etcd Data Backup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 8: Verify etcd Data Backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-check-datauploads-csi-data-mover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Check DataUploads (CSI Data Mover)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-verify-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Verify Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-9-resume-hostedcluster-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 9: Resume HostedCluster Reconciliation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 9: Resume HostedCluster Reconciliation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-resume-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Resume Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-verify-hostedcluster-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Verify HostedCluster Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gets-backed-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Gets Backed Up
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-createdmodified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files Created/Modified
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-modifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cluster Modifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#take-a-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Take a Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-a-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify a Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resume-reconciliation-after-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resume Reconciliation After Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-oadp-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check OADP Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backup-stuck-in-waitingforpluginoperations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup Stuck in WaitingForPluginOperations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backupstoragelocation-not-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BackupStorageLocation Not Available
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-volume-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No Volume Snapshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backup-errors-backupstoragelocation-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup Errors "BackupStorageLocation not found"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../OADP-RESTORE-TEST-PROCEDURE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore Test
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runbooks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Runbooks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/HIGH-AVAILABILITY-GUIDE/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HA Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/DR-PLAN/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DR Plan
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/BACKUP-PROCEDURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backup Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../runbooks/RESTORE-PROCEDURES/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore Procedures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Storage
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../odf/docs/RGW-S3-Usage-Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    S3 Usage Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites-verified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites Verified
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-verify-rgw-s3-storage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: Verify RGW S3 Storage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 1: Verify RGW S3 Storage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11-check-rgw-pods" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 Check RGW Pods
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12-check-rgw-storageclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 Check RGW StorageClass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-test-s3-connectivity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 Test S3 Connectivity
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#14-verified-s3-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.4 Verified S3 Operations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#15-cleanup-test-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.5 Cleanup Test Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-install-oadp-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: Install OADP Operator
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 2: Install OADP Operator">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-run-installation-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 Run Installation Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 What the Script Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-verify-installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 Verify Installation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-rgw-bucket-and-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: Create RGW Bucket and Credentials
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 3: Create RGW Bucket and Credentials">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-run-credentials-setup-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Run Credentials Setup Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 What the Script Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-created-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 Created Resources
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-deploy-dataprotectionapplication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: Deploy DataProtectionApplication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 4: Deploy DataProtectionApplication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-run-dpa-deployment-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Run DPA Deployment Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 What the Script Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-dpa-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 DPA Configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-verify-dpa-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Verify DPA Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-configure-csi-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: Configure CSI Snapshots
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 5: Configure CSI Snapshots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-label-volumesnapshotclass-for-velero" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Label VolumeSnapshotClass for Velero
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-verify-label" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Verify Label
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-6-fix-backup-template" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 6: Fix Backup Template
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 6: Fix Backup Template">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-issue-discovered" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 Issue Discovered
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-fix-applied" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 Fix Applied
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-7-take-first-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 7: Take First Backup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 7: Take First Backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71-run-backup-script" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 Run Backup Script
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-what-the-script-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 What the Script Does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73-monitor-backup-progress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 Monitor Backup Progress
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74-backup-results" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 Backup Results
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-8-verify-etcd-data-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 8: Verify etcd Data Backup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 8: Verify etcd Data Backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81-check-datauploads-csi-data-mover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 Check DataUploads (CSI Data Mover)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82-verify-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 Verify Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-9-resume-hostedcluster-reconciliation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 9: Resume HostedCluster Reconciliation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Step 9: Resume HostedCluster Reconciliation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-resume-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 Resume Command
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92-verify-hostedcluster-health" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 Verify HostedCluster Health
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gets-backed-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What Gets Backed Up
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#files-createdmodified" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Files Created/Modified
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cluster-modifications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cluster Modifications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage Commands
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage Commands">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#take-a-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Take a Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#verify-a-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify a Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resume-reconciliation-after-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resume Reconciliation After Backup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#check-oadp-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check OADP Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture-diagram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture Diagram
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backup-stuck-in-waitingforpluginoperations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup Stuck in WaitingForPluginOperations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backupstoragelocation-not-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BackupStorageLocation Not Available
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#no-volume-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        No Volume Snapshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backup-errors-backupstoragelocation-not-found" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Backup Errors "BackupStorageLocation not found"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="admonition warning">
+<p class="admonition-title">Disclaimer</p>
+<p>This documentation is for <strong>community exploration and education</strong> only.
+<strong>Not for production use.</strong> Contact Red Hat Consulting for recommended solutions.
+Open a Red Hat Support Case for compatibility and supported options.</p>
+</div>
+<hr />
+<h1 id="oadp-hcp-backup-setup-step-by-step">OADP HCP Backup Setup - Step by Step<a class="headerlink" href="#oadp-hcp-backup-setup-step-by-step" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2026-01-19<br />
+<strong>Cluster:</strong> management-hypershift-lab<br />
+<strong>Hosted Cluster:</strong> sno-hcp (namespace: clusters)<br />
+<strong>Control Plane Namespace:</strong> clusters-sno-hcp</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This document captures the step-by-step process to configure OADP (OpenShift API for Data Protection) to backup HCP (Hosted Control Planes) including etcd data using ODF RGW as the S3 backend.</p>
+<hr />
+<h2 id="prerequisites-verified">Prerequisites Verified<a class="headerlink" href="#prerequisites-verified" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Requirement</th>
+<th>Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ODF installed</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>RGW StorageClass available</td>
+<td>✅ <code>ocs-storagecluster-ceph-rgw</code></td>
+</tr>
+<tr>
+<td>etcd PVC using RBD</td>
+<td>✅ <code>data-etcd-0</code> (4Gi)</td>
+</tr>
+<tr>
+<td>VolumeSnapshotClass available</td>
+<td>✅ <code>ocs-storagecluster-rbdplugin-snapclass</code></td>
+</tr>
+<tr>
+<td>cluster-admin access</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="step-1-verify-rgw-s3-storage">Step 1: Verify RGW S3 Storage<a class="headerlink" href="#step-1-verify-rgw-s3-storage" title="Permanent link">&para;</a></h2>
+<p>Before setting up OADP, we verified that ODF RGW was working correctly.</p>
+<h3 id="11-check-rgw-pods">1.1 Check RGW Pods<a class="headerlink" href="#11-check-rgw-pods" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>openshift-storage<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>rgw
+</span></code></pre></div>
+<strong>Result:</strong> <code>rook-ceph-rgw-ocs-storagecluster-cephobjectstore-a-*</code> running (2/2)</p>
+<h3 id="12-check-rgw-storageclass">1.2 Check RGW StorageClass<a class="headerlink" href="#12-check-rgw-storageclass" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>oc<span class="w"> </span>get<span class="w"> </span>sc<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>rgw
+</span></code></pre></div>
+<strong>Result:</strong> <code>ocs-storagecluster-ceph-rgw</code> available</p>
+<h3 id="13-test-s3-connectivity">1.3 Test S3 Connectivity<a class="headerlink" href="#13-test-s3-connectivity" title="Permanent link">&para;</a></h3>
+<p>Created a test pod to verify S3 operations:
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Create test pod with aws-cli</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="s">apiVersion: v1</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="s">kind: Pod</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="s">metadata:</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="s">  name: rgw-s3-test</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="s">  namespace: odf-test</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="s">spec:</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="s">  containers:</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="s">  - name: aws-cli</span>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="s">    image: amazon/aws-cli:latest</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="s">    command: [&quot;sleep&quot;, &quot;3600&quot;]</span>
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="s">    env:</span>
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="s">    - name: AWS_ACCESS_KEY_ID</span>
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="s">      valueFrom:</span>
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="s">        secretKeyRef:</span>
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="s">          name: test-bucket</span>
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="s">          key: AWS_ACCESS_KEY_ID</span>
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="s">    - name: AWS_SECRET_ACCESS_KEY</span>
+</span><span id="__span-2-20"><a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="s">      valueFrom:</span>
+</span><span id="__span-2-21"><a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="s">        secretKeyRef:</span>
+</span><span id="__span-2-22"><a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="s">          name: test-bucket</span>
+</span><span id="__span-2-23"><a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="s">          key: AWS_SECRET_ACCESS_KEY</span>
+</span><span id="__span-2-24"><a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a><span class="s">    - name: S3_ENDPOINT</span>
+</span><span id="__span-2-25"><a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="s">      value: &quot;https://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc:443&quot;</span>
+</span><span id="__span-2-26"><a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="s">    - name: S3_BUCKET</span>
+</span><span id="__span-2-27"><a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="s">      valueFrom:</span>
+</span><span id="__span-2-28"><a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="s">        configMapKeyRef:</span>
+</span><span id="__span-2-29"><a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="s">          name: test-bucket</span>
+</span><span id="__span-2-30"><a id="__codelineno-2-30" name="__codelineno-2-30" href="#__codelineno-2-30"></a><span class="s">          key: BUCKET_NAME</span>
+</span><span id="__span-2-31"><a id="__codelineno-2-31" name="__codelineno-2-31" href="#__codelineno-2-31"></a><span class="s">  restartPolicy: Never</span>
+</span><span id="__span-2-32"><a id="__codelineno-2-32" name="__codelineno-2-32" href="#__codelineno-2-32"></a><span class="s">EOF</span>
+</span></code></pre></div></p>
+<h3 id="14-verified-s3-operations">1.4 Verified S3 Operations<a class="headerlink" href="#14-verified-s3-operations" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>oc<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>odf-test<span class="w"> </span>rgw-s3-test<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">&#39;</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="s1">  # Upload</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="s1">  echo &quot;test&quot; &gt; /tmp/test.txt</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="s1">  aws s3 cp /tmp/test.txt s3://$S3_BUCKET/ --endpoint-url $S3_ENDPOINT --no-verify-ssl</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="s1">  # Download</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="s1">  aws s3 cp s3://$S3_BUCKET/test.txt /tmp/downloaded.txt --endpoint-url $S3_ENDPOINT --no-verify-ssl</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="s1">  # Delete</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="s1">  aws s3 rm s3://$S3_BUCKET/test.txt --endpoint-url $S3_ENDPOINT --no-verify-ssl</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="s1">&#39;</span>
+</span></code></pre></div>
+<strong>Result:</strong> All operations successful ✅</p>
+<h3 id="15-cleanup-test-pod">1.5 Cleanup Test Pod<a class="headerlink" href="#15-cleanup-test-pod" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>oc<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>rgw-s3-test<span class="w"> </span>-n<span class="w"> </span>odf-test
+</span></code></pre></div>
+<hr />
+<h2 id="step-2-install-oadp-operator">Step 2: Install OADP Operator<a class="headerlink" href="#step-2-install-oadp-operator" title="Permanent link">&para;</a></h2>
+<h3 id="21-run-installation-script">2.1 Run Installation Script<a class="headerlink" href="#21-run-installation-script" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">cd</span><span class="w"> </span>/Users/elalance/Documents/code/MYHOMELAB/hcp/DR
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>./scripts/01-install-oadp.sh
+</span></code></pre></div>
+<h3 id="22-what-the-script-does">2.2 What the Script Does<a class="headerlink" href="#22-what-the-script-does" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Creates <code>openshift-adp</code> namespace</li>
+<li>Creates OperatorGroup</li>
+<li>Subscribes to <code>redhat-oadp-operator</code> (stable-1.4 channel)</li>
+<li>Waits for CSV to be ready</li>
+</ol>
+<h3 id="23-verify-installation">2.3 Verify Installation<a class="headerlink" href="#23-verify-installation" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span></code></pre></div>
+<strong>Result:</strong> <code>openshift-adp-controller-manager-*</code> running</p>
+<p><strong>OADP Version:</strong> v1.4.7</p>
+<hr />
+<h2 id="step-3-create-rgw-bucket-and-credentials">Step 3: Create RGW Bucket and Credentials<a class="headerlink" href="#step-3-create-rgw-bucket-and-credentials" title="Permanent link">&para;</a></h2>
+<h3 id="31-run-credentials-setup-script">3.1 Run Credentials Setup Script<a class="headerlink" href="#31-run-credentials-setup-script" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>./scripts/setup-rgw-credentials.sh
+</span></code></pre></div>
+<h3 id="32-what-the-script-does">3.2 What the Script Does<a class="headerlink" href="#32-what-the-script-does" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Creates ObjectBucketClaim <code>oadp-hcp-bucket</code> in <code>openshift-adp</code> namespace</li>
+<li>Waits for OBC to be bound</li>
+<li>Extracts credentials from OBC secret</li>
+<li>Creates <code>cloud-credentials</code> secret in Velero format</li>
+</ol>
+<h3 id="33-created-resources">3.3 Created Resources<a class="headerlink" href="#33-created-resources" title="Permanent link">&para;</a></h3>
+<p><strong>ObjectBucketClaim:</strong>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">objectbucket.io/v1alpha1</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ObjectBucketClaim</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oadp-hcp-bucket</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-adp</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span><span class="nt">generateBucketName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oadp-hcp-backup</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ocs-storagecluster-ceph-rgw</span>
+</span></code></pre></div></p>
+<p><strong>Bucket Created:</strong> <code>oadp-hcp-backup-efc2a666-b4ac-42d7-bd6e-b6d70a85fd90</code></p>
+<p><strong>Credentials Secret:</strong> <code>cloud-credentials</code> (Velero format)</p>
+<hr />
+<h2 id="step-4-deploy-dataprotectionapplication">Step 4: Deploy DataProtectionApplication<a class="headerlink" href="#step-4-deploy-dataprotectionapplication" title="Permanent link">&para;</a></h2>
+<h3 id="41-run-dpa-deployment-script">4.1 Run DPA Deployment Script<a class="headerlink" href="#41-run-dpa-deployment-script" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>./scripts/deploy-dpa-rgw.sh
+</span></code></pre></div>
+<h3 id="42-what-the-script-does">4.2 What the Script Does<a class="headerlink" href="#42-what-the-script-does" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Verifies prerequisites (OADP operator, credentials)</li>
+<li>Gets bucket name from OBC ConfigMap</li>
+<li>Deploys DPA with RGW configuration</li>
+<li>Waits for BackupStorageLocation to be available</li>
+</ol>
+<h3 id="43-dpa-configuration">4.3 DPA Configuration<a class="headerlink" href="#43-dpa-configuration" title="Permanent link">&para;</a></h3>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oadp.openshift.io/v1alpha1</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DataProtectionApplication</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nt">metadata</span><span class="p">:</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hcp-dpa</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-adp</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="nt">spec</span><span class="p">:</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="nt">backupLocations</span><span class="p">:</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">velero</span><span class="p">:</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">        </span><span class="nt">config</span><span class="p">:</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">          </span><span class="nt">s3Url</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://rook-ceph-rgw-ocs-storagecluster-cephobjectstore.openshift-storage.svc:443</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">          </span><span class="nt">s3ForcePathStyle</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">          </span><span class="nt">insecureSkipTLSVerify</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span><span class="w">  </span><span class="c1"># Self-signed cert</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">          </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-east-1</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">        </span><span class="nt">credential</span><span class="p">:</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cloud-credentials</span>
+</span><span id="__span-10-17"><a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">        </span><span class="nt">objectStorage</span><span class="p">:</span>
+</span><span id="__span-10-18"><a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">          </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">oadp-hcp-backup-efc2a666-b4ac-42d7-bd6e-b6d70a85fd90</span>
+</span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">          </span><span class="nt">prefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hcp-backups</span>
+</span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="w">        </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+</span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="w">  </span><span class="nt">configuration</span><span class="p">:</span>
+</span><span id="__span-10-22"><a id="__codelineno-10-22" name="__codelineno-10-22" href="#__codelineno-10-22"></a><span class="w">    </span><span class="nt">nodeAgent</span><span class="p">:</span>
+</span><span id="__span-10-23"><a id="__codelineno-10-23" name="__codelineno-10-23" href="#__codelineno-10-23"></a><span class="w">      </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span><span id="__span-10-24"><a id="__codelineno-10-24" name="__codelineno-10-24" href="#__codelineno-10-24"></a><span class="w">      </span><span class="nt">uploaderType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kopia</span>
+</span><span id="__span-10-25"><a id="__codelineno-10-25" name="__codelineno-10-25" href="#__codelineno-10-25"></a><span class="w">    </span><span class="nt">velero</span><span class="p">:</span>
+</span><span id="__span-10-26"><a id="__codelineno-10-26" name="__codelineno-10-26" href="#__codelineno-10-26"></a><span class="w">      </span><span class="nt">defaultPlugins</span><span class="p">:</span>
+</span><span id="__span-10-27"><a id="__codelineno-10-27" name="__codelineno-10-27" href="#__codelineno-10-27"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift</span>
+</span><span id="__span-10-28"><a id="__codelineno-10-28" name="__codelineno-10-28" href="#__codelineno-10-28"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws</span>
+</span><span id="__span-10-29"><a id="__codelineno-10-29" name="__codelineno-10-29" href="#__codelineno-10-29"></a><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">csi</span>
+</span></code></pre></div>
+<h3 id="44-verify-dpa-status">4.4 Verify DPA Status<a class="headerlink" href="#44-verify-dpa-status" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>oc<span class="w"> </span>get<span class="w"> </span>dpa<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>oc<span class="w"> </span>get<span class="w"> </span>backupstoragelocation<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span></code></pre></div>
+<strong>Result:</strong> <code>hcp-dpa-1</code> BackupStorageLocation is <code>Available</code></p>
+<hr />
+<h2 id="step-5-configure-csi-snapshots">Step 5: Configure CSI Snapshots<a class="headerlink" href="#step-5-configure-csi-snapshots" title="Permanent link">&para;</a></h2>
+<h3 id="51-label-volumesnapshotclass-for-velero">5.1 Label VolumeSnapshotClass for Velero<a class="headerlink" href="#51-label-volumesnapshotclass-for-velero" title="Permanent link">&para;</a></h3>
+<p>For CSI snapshots to work with Velero, the VolumeSnapshotClass needs a label:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>oc<span class="w"> </span>label<span class="w"> </span>volumesnapshotclass<span class="w"> </span>ocs-storagecluster-rbdplugin-snapclass<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span>velero.io/csi-volumesnapshot-class<span class="o">=</span><span class="nb">true</span>
+</span></code></pre></div>
+<h3 id="52-verify-label">5.2 Verify Label<a class="headerlink" href="#52-verify-label" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>oc<span class="w"> </span>get<span class="w"> </span>volumesnapshotclass<span class="w"> </span>ocs-storagecluster-rbdplugin-snapclass<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-A5<span class="w"> </span>labels
+</span></code></pre></div>
+<hr />
+<h2 id="step-6-fix-backup-template">Step 6: Fix Backup Template<a class="headerlink" href="#step-6-fix-backup-template" title="Permanent link">&para;</a></h2>
+<h3 id="61-issue-discovered">6.1 Issue Discovered<a class="headerlink" href="#61-issue-discovered" title="Permanent link">&para;</a></h3>
+<p>The backup template referenced <code>storageLocation: default</code> but the actual BackupStorageLocation was named <code>hcp-dpa-1</code>.</p>
+<h3 id="62-fix-applied">6.2 Fix Applied<a class="headerlink" href="#62-fix-applied" title="Permanent link">&para;</a></h3>
+<p>Updated <code>manifests/backup-control-plane.yaml.template</code>:
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="c1"># Before</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nt">storageLocation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># After</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="nt">storageLocation</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hcp-dpa-1</span>
+</span></code></pre></div></p>
+<p>Also updated the label:
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nt">labels</span><span class="p">:</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="nt">velero.io/storage-location</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hcp-dpa-1</span>
+</span></code></pre></div></p>
+<hr />
+<h2 id="step-7-take-first-backup">Step 7: Take First Backup<a class="headerlink" href="#step-7-take-first-backup" title="Permanent link">&para;</a></h2>
+<h3 id="71-run-backup-script">7.1 Run Backup Script<a class="headerlink" href="#71-run-backup-script" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>./scripts/02-backup-control-plane.sh<span class="w"> </span>sno-hcp<span class="w"> </span>clusters
+</span></code></pre></div>
+<h3 id="72-what-the-script-does">7.2 What the Script Does<a class="headerlink" href="#72-what-the-script-does" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Verifies HostedCluster exists</li>
+<li>Verifies control plane namespace exists</li>
+<li>Pauses HostedCluster reconciliation</li>
+<li>Creates Backup CR with CSI volume snapshots</li>
+</ol>
+<h3 id="73-monitor-backup-progress">7.3 Monitor Backup Progress<a class="headerlink" href="#73-monitor-backup-progress" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>oc<span class="w"> </span>get<span class="w"> </span>backup<span class="w"> </span>-n<span class="w"> </span>openshift-adp<span class="w"> </span>-w
+</span></code></pre></div>
+<h3 id="74-backup-results">7.4 Backup Results<a class="headerlink" href="#74-backup-results" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backup Name</td>
+<td><code>hcp-sno-hcp-20260119-132459</code></td>
+</tr>
+<tr>
+<td>Status</td>
+<td>Completed</td>
+</tr>
+<tr>
+<td>Items Backed Up</td>
+<td>220</td>
+</tr>
+<tr>
+<td>Errors</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Warnings</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Duration</td>
+<td>38 seconds</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="step-8-verify-etcd-data-backup">Step 8: Verify etcd Data Backup<a class="headerlink" href="#step-8-verify-etcd-data-backup" title="Permanent link">&para;</a></h2>
+<h3 id="81-check-datauploads-csi-data-mover">8.1 Check DataUploads (CSI Data Mover)<a class="headerlink" href="#81-check-datauploads-csi-data-mover" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>oc<span class="w"> </span>get<span class="w"> </span>dataupload<span class="w"> </span>-n<span class="w"> </span>openshift-adp<span class="w"> </span>-l<span class="w"> </span>velero.io/backup-name<span class="o">=</span>hcp-sno-hcp-20260119-132459
+</span></code></pre></div>
+<p><strong>Result:</strong>
+| Name | Status | Bytes |
+|------|--------|-------|
+| <code>hcp-sno-hcp-20260119-132459-8hvxw</code> | Completed | 417,748,384 (417 MB) |</p>
+<p>The 417 MB is the etcd data from the <code>data-etcd-0</code> PVC.</p>
+<h3 id="82-verify-backup">8.2 Verify Backup<a class="headerlink" href="#82-verify-backup" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>./scripts/verify-backup.sh<span class="w"> </span>hcp-sno-hcp-20260119-132459
+</span></code></pre></div>
+<hr />
+<h2 id="step-9-resume-hostedcluster-reconciliation">Step 9: Resume HostedCluster Reconciliation<a class="headerlink" href="#step-9-resume-hostedcluster-reconciliation" title="Permanent link">&para;</a></h2>
+<h3 id="91-resume-command">9.1 Resume Command<a class="headerlink" href="#91-resume-command" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>oc<span class="w"> </span>patch<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;pausedUntil&quot;:null}}&#39;</span>
+</span></code></pre></div>
+<h3 id="92-verify-hostedcluster-health">9.2 Verify HostedCluster Health<a class="headerlink" href="#92-verify-hostedcluster-health" title="Permanent link">&para;</a></h3>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>oc<span class="w"> </span>get<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters
+</span></code></pre></div>
+<strong>Result:</strong> Available ✅</p>
+<hr />
+<h2 id="what-gets-backed-up">What Gets Backed Up<a class="headerlink" href="#what-gets-backed-up" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+<th>Backup Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HostedCluster CR</td>
+<td>Cluster configuration</td>
+<td>K8s resources</td>
+</tr>
+<tr>
+<td>HostedControlPlane CR</td>
+<td>Control plane settings</td>
+<td>K8s resources</td>
+</tr>
+<tr>
+<td>NodePool CRs</td>
+<td>Worker node configuration</td>
+<td>K8s resources</td>
+</tr>
+<tr>
+<td>Secrets</td>
+<td>pull-secret, SSH keys, certs</td>
+<td>K8s resources</td>
+</tr>
+<tr>
+<td>ConfigMaps</td>
+<td>Configuration data</td>
+<td>K8s resources</td>
+</tr>
+<tr>
+<td>ServiceAccounts</td>
+<td>RBAC identities</td>
+<td>K8s resources</td>
+</tr>
+<tr>
+<td>Roles/RoleBindings</td>
+<td>RBAC permissions</td>
+<td>K8s resources</td>
+</tr>
+<tr>
+<td>AgentMachines</td>
+<td>Cluster API resources</td>
+<td>K8s resources</td>
+</tr>
+<tr>
+<td><strong>etcd PVC</strong></td>
+<td>Cluster state data</td>
+<td><strong>CSI Snapshot → S3</strong></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="files-createdmodified">Files Created/Modified<a class="headerlink" href="#files-createdmodified" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>manifests/oadp-rgw-bucket.yaml</code></td>
+<td>ObjectBucketClaim for RGW</td>
+</tr>
+<tr>
+<td><code>manifests/05-dpa-rgw.yaml.template</code></td>
+<td>DPA configured for ODF RGW</td>
+</tr>
+<tr>
+<td><code>manifests/backup-control-plane.yaml.template</code></td>
+<td>Fixed storageLocation</td>
+</tr>
+<tr>
+<td><code>scripts/setup-rgw-credentials.sh</code></td>
+<td>Creates OBC + credentials</td>
+</tr>
+<tr>
+<td><code>scripts/deploy-dpa-rgw.sh</code></td>
+<td>Deploys DPA with RGW</td>
+</tr>
+<tr>
+<td><code>scripts/verify-backup.sh</code></td>
+<td>Added CSI DataUpload check</td>
+</tr>
+<tr>
+<td><code>README.md</code></td>
+<td>Updated with RGW instructions</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="cluster-modifications">Cluster Modifications<a class="headerlink" href="#cluster-modifications" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Resource</th>
+<th>Modification</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VolumeSnapshotClass <code>ocs-storagecluster-rbdplugin-snapclass</code></td>
+<td>Added label <code>velero.io/csi-volumesnapshot-class=true</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="usage-commands">Usage Commands<a class="headerlink" href="#usage-commands" title="Permanent link">&para;</a></h2>
+<h3 id="take-a-backup">Take a Backup<a class="headerlink" href="#take-a-backup" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="nb">cd</span><span class="w"> </span>/path/to/hcp/DR
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>./scripts/02-backup-control-plane.sh<span class="w"> </span>sno-hcp<span class="w"> </span>clusters
+</span></code></pre></div>
+<h3 id="verify-a-backup">Verify a Backup<a class="headerlink" href="#verify-a-backup" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>./scripts/verify-backup.sh<span class="w"> </span>&lt;backup-name&gt;
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="c1"># Or list all backups:</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>./scripts/verify-backup.sh
+</span></code></pre></div>
+<h3 id="resume-reconciliation-after-backup">Resume Reconciliation After Backup<a class="headerlink" href="#resume-reconciliation-after-backup" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>oc<span class="w"> </span>patch<span class="w"> </span>hostedcluster<span class="w"> </span>sno-hcp<span class="w"> </span>-n<span class="w"> </span>clusters<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;pausedUntil&quot;:null}}&#39;</span>
+</span></code></pre></div>
+<h3 id="check-oadp-status">Check OADP Status<a class="headerlink" href="#check-oadp-status" title="Permanent link">&para;</a></h3>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>oc<span class="w"> </span>get<span class="w"> </span>dpa<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>oc<span class="w"> </span>get<span class="w"> </span>backupstoragelocation<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>oc<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>openshift-adp
+</span></code></pre></div>
+<hr />
+<h2 id="architecture-diagram">Architecture Diagram<a class="headerlink" href="#architecture-diagram" title="Permanent link">&para;</a></h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>┌─────────────────────────────────────────────────────────────────┐
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>│                    Management Cluster                            │
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>│                                                                  │
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>│  ┌─────────────────┐     ┌─────────────────────────────────┐   │
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>│  │   OADP/Velero   │     │    HCP Control Plane            │   │
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>│  │  openshift-adp  │     │    clusters-sno-hcp             │   │
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>│  │                 │     │                                 │   │
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>│  │  ┌───────────┐  │     │  ┌─────────┐  ┌─────────────┐  │   │
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>│  │  │  Velero   │──┼─────┼─►│  etcd   │  │ API Server  │  │   │
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>│  │  │   Pod     │  │     │  │  Pod    │  │    Pod      │  │   │
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>│  │  └───────────┘  │     │  └────┬────┘  └─────────────┘  │   │
+</span><span id="__span-26-12"><a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a>│  │                 │     │       │                        │   │
+</span><span id="__span-26-13"><a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a>│  │  ┌───────────┐  │     │  ┌────▼────┐                   │   │
+</span><span id="__span-26-14"><a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>│  │  │Node Agent │  │     │  │  PVC    │                   │   │
+</span><span id="__span-26-15"><a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a>│  │  │(Kopia DM) │──┼─────┼─►│data-etcd│                   │   │
+</span><span id="__span-26-16"><a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a>│  │  └───────────┘  │     │  │  4Gi    │                   │   │
+</span><span id="__span-26-17"><a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a>│  │                 │     │  └────┬────┘                   │   │
+</span><span id="__span-26-18"><a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a>│  └────────┬────────┘     └───────┼─────────────────────────┘   │
+</span><span id="__span-26-19"><a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a>│           │                      │                              │
+</span><span id="__span-26-20"><a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a>│           │              ┌───────▼───────┐                      │
+</span><span id="__span-26-21"><a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a>│           │              │ CSI Snapshot  │                      │
+</span><span id="__span-26-22"><a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a>│           │              │ (RBD driver)  │                      │
+</span><span id="__span-26-23"><a id="__codelineno-26-23" name="__codelineno-26-23" href="#__codelineno-26-23"></a>│           │              └───────┬───────┘                      │
+</span><span id="__span-26-24"><a id="__codelineno-26-24" name="__codelineno-26-24" href="#__codelineno-26-24"></a>│           │                      │                              │
+</span><span id="__span-26-25"><a id="__codelineno-26-25" name="__codelineno-26-25" href="#__codelineno-26-25"></a>│           ▼                      ▼                              │
+</span><span id="__span-26-26"><a id="__codelineno-26-26" name="__codelineno-26-26" href="#__codelineno-26-26"></a>│  ┌─────────────────────────────────────────────────────────┐   │
+</span><span id="__span-26-27"><a id="__codelineno-26-27" name="__codelineno-26-27" href="#__codelineno-26-27"></a>│  │               ODF Storage (openshift-storage)            │   │
+</span><span id="__span-26-28"><a id="__codelineno-26-28" name="__codelineno-26-28" href="#__codelineno-26-28"></a>│  │                                                          │   │
+</span><span id="__span-26-29"><a id="__codelineno-26-29" name="__codelineno-26-29" href="#__codelineno-26-29"></a>│  │  ┌──────────────────┐    ┌────────────────────────────┐ │   │
+</span><span id="__span-26-30"><a id="__codelineno-26-30" name="__codelineno-26-30" href="#__codelineno-26-30"></a>│  │  │   Ceph RGW       │    │      Ceph RBD              │ │   │
+</span><span id="__span-26-31"><a id="__codelineno-26-31" name="__codelineno-26-31" href="#__codelineno-26-31"></a>│  │  │   (S3 API)       │◄───│   (Block Storage)          │ │   │
+</span><span id="__span-26-32"><a id="__codelineno-26-32" name="__codelineno-26-32" href="#__codelineno-26-32"></a>│  │  │                  │    │                            │ │   │
+</span><span id="__span-26-33"><a id="__codelineno-26-33" name="__codelineno-26-33" href="#__codelineno-26-33"></a>│  │  │  oadp-hcp-bucket │    │  ocs-storagecluster-ceph-  │ │   │
+</span><span id="__span-26-34"><a id="__codelineno-26-34" name="__codelineno-26-34" href="#__codelineno-26-34"></a>│  │  │  (417 MB backup) │    │  rbd StorageClass          │ │   │
+</span><span id="__span-26-35"><a id="__codelineno-26-35" name="__codelineno-26-35" href="#__codelineno-26-35"></a>│  │  └──────────────────┘    └────────────────────────────┘ │   │
+</span><span id="__span-26-36"><a id="__codelineno-26-36" name="__codelineno-26-36" href="#__codelineno-26-36"></a>│  └─────────────────────────────────────────────────────────┘   │
+</span><span id="__span-26-37"><a id="__codelineno-26-37" name="__codelineno-26-37" href="#__codelineno-26-37"></a>└─────────────────────────────────────────────────────────────────┘
+</span></code></pre></div>
+<hr />
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="backup-stuck-in-waitingforpluginoperations">Backup Stuck in WaitingForPluginOperations<a class="headerlink" href="#backup-stuck-in-waitingforpluginoperations" title="Permanent link">&para;</a></h3>
+<ul>
+<li>CSI snapshots are being processed</li>
+<li>Check DataUpload status: <code>oc get dataupload -n openshift-adp</code></li>
+</ul>
+<h3 id="backupstoragelocation-not-available">BackupStorageLocation Not Available<a class="headerlink" href="#backupstoragelocation-not-available" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Check RGW pods: <code>oc get pods -n openshift-storage | grep rgw</code></li>
+<li>Check credentials: <code>oc get secret cloud-credentials -n openshift-adp</code></li>
+<li>Check velero logs: <code>oc logs -n openshift-adp -l app.kubernetes.io/name=velero</code></li>
+</ul>
+<h3 id="no-volume-snapshots">No Volume Snapshots<a class="headerlink" href="#no-volume-snapshots" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Verify VolumeSnapshotClass has label: <code>velero.io/csi-volumesnapshot-class=true</code></li>
+<li>Check CSI plugin in DPA: should include <code>csi</code> in defaultPlugins</li>
+</ul>
+<h3 id="backup-errors-backupstoragelocation-not-found">Backup Errors "BackupStorageLocation not found"<a class="headerlink" href="#backup-errors-backupstoragelocation-not-found" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Check storageLocation in backup matches actual BSL name</li>
+<li>Get BSL name: <code>oc get backupstoragelocation -n openshift-adp</code></li>
+</ul>
+<hr />
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://docs.openshift.com/container-platform/latest/backup_and_restore/application_backup_and_restore/oadp-intro.html">OADP Documentation</a></li>
+<li><a href="https://docs.openshift.com/container-platform/latest/hosted_control_planes/hcp-high-availability.html">HCP High Availability</a></li>
+<li><a href="../../odf/docs/RGW-S3-Usage-Guide.md">ODF RGW S3 Usage</a></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      <strong>Disclaimer:</strong> Community exploration & education only. Not for production use.<br>
+Contact <strong>Red Hat Consulting Services</strong> for recommended solutions.<br>
+Open a <strong>Red Hat Support Case</strong> for compatibility and supported options.
+
+    </div>
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

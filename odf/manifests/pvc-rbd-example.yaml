@@ -1,0 +1,19 @@
+---
+# Example RBD PVC Manifest
+# Use this as a reference or starting point
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: example-rbd-pvc
+  namespace: default
+  labels:
+    app: example-app
+    storage-type: rbd
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: ocs-storagecluster-ceph-rbd
+

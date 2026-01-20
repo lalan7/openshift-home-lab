@@ -1,0 +1,97 @@
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: storage-network-server2-worker7
+  labels:
+    purpose: storage-network
+    server: server2
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: hosted-worker7.hypershift.lab
+  desiredState:
+    interfaces:
+    - name: enp11s0
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.20
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: storage-network-server2-worker8
+  labels:
+    purpose: storage-network
+    server: server2
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: hosted-worker8.hypershift.lab
+  desiredState:
+    interfaces:
+    - name: enp11s0
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.21
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: storage-network-server2-worker9
+  labels:
+    purpose: storage-network
+    server: server2
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: hosted-worker9.hypershift.lab
+  desiredState:
+    interfaces:
+    - name: enp11s0
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.22
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false
+---
+apiVersion: nmstate.io/v1
+kind: NodeNetworkConfigurationPolicy
+metadata:
+  name: storage-network-server2-worker10
+  labels:
+    purpose: storage-network
+    server: server2
+spec:
+  nodeSelector:
+    kubernetes.io/hostname: hosted-worker10.hypershift.lab
+  desiredState:
+    interfaces:
+    - name: enp10s0
+      type: ethernet
+      state: up
+      ipv4:
+        enabled: true
+        address:
+        - ip: 10.0.0.10
+          prefix-length: 24
+        dhcp: false
+      ipv6:
+        enabled: false
+
